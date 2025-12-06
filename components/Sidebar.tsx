@@ -1,4 +1,3 @@
-
 "use client";
 import { X } from "lucide-react";
 
@@ -19,7 +18,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       />
       
       {/* Sidebar drawer */}
-      <div className="fixed top-0 left-0 h-full w-80 bg-zinc-800 z-50 shadow-xl transform transition-transform duration-300 ease-in-out">
+      <div className="fixed top-0 left-0 h-full w-full bg-zinc-800 z-50 shadow-xl transform transition-transform duration-300 ease-in-out">
         <div className="flex items-center justify-between p-4 border-b border-zinc-700">
           <h2 className="text-xl font-bold">Menu</h2>
           <X onClick={onClose} className="cursor-pointer hover:text-gray-300" />
