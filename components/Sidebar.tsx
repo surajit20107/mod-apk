@@ -1,8 +1,15 @@
-"use client";
+import { X } from "lucide-react";
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+export default function Sidebar({isOpen, onClose}: SidebarProps) {
+  if (!isOpen) return
   return (
-    <div className="h-full w-full z-50">
+    <div className="fixed top-0 left-0 h-full w-full bg-[#111827]">
+      <X onClick={onClose} />
       this is sidebar
     </div>
   )
