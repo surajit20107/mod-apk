@@ -1,16 +1,18 @@
 "use client";
 import { Menu, Search, Github } from "lucide-react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-interface HeaderProps {
-  onMenuClick: () => void;
-}
-
-export default function Header({ onMenuClick }: HeaderProps) {
+export default function Header() {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleClick = () => {
+    setIsOpen(true)
+  }
+  
   return (
     <nav className="h-16 w-full flex p-4 items-center justify-between bg-zinc-600">
-      <Menu onClick={onMenuClick} className="cursor-pointer" />
+      <Menu onClick={handleClick} />
       <div className="relative h-8 w-36">
         <Link href="/">
           <Image
@@ -19,15 +21,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
             fill
             priority
             className="object-contain"
-          />
+            />
         </Link>
       </div>
       <div className="flex items-center justify-center h-full w-auto gap-4">
-        <Search className="cursor-pointer" />
+        <Search />
         <a href="https://github.com/surajit20107" target="_blank">
           <Github />
         </a>
       </div>
     </nav>
-  );
+  )
 }
