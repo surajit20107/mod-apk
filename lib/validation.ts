@@ -6,8 +6,6 @@ export const userSchema = z.object({
   email: z.string().trim().email(),
   phone: z.string().trim().min(10).max(10),
   password: z.string().trim().min(6).max(20),
-  image: z.string().optional(),
-  role: z.literal("user"),
 })
 
 export const appSchema = z.object({
@@ -23,6 +21,6 @@ export const appSchema = z.object({
   price: z.string().trim().min(3).max(100),
   description: z.string().trim().min(3).max(100),
   downloadUrl: z.string().trim().min(5).max(250),
-  requirements: z.string().trim().min(15).max(10),
+  requirements: z.string().trim().min(5).max(10),
   modInfo: z.string().trim().min(10).max(255),
 })
