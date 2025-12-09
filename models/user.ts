@@ -1,6 +1,6 @@
 import mongoose, { Schema, model } from "mongoose";
 
-const adminSchema = new Schema({
+const userSchema = new Schema({
   username: String,
   name: String,
   email: String,
@@ -13,4 +13,4 @@ const adminSchema = new Schema({
   },
 }, { timestamps: true })
 
-export default mongoose.models.Admin || model("Admin", adminSchema);
+export default mongoose.models.User || model("User", userSchema);
