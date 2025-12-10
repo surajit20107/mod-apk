@@ -4,41 +4,6 @@ import { appSchema } from "@/lib/validation";
 import User from "@/models/user";
 import Apk from "@/models/apk";
 
-export async function GET() {
-  try {
-    await connectToDatabase();
-
-    const featuredApps = await Apk.find({ tags: { $in: ["featured"] } }).limit(
-      6,
-    );
-
-    const updatedGames = await Apk.find({ tags: { $in: ["games"] } }).limit(12);
-
-    const updatedApps = await Apk.find({ tags: { $in: ["apps"] } }).limit(12);
-
-    const newGames = await Apk.find({ tags: { $in: ["new-games"] } }).limit(12);
-
-    const newApps = await Apk.find({ tags: { $in: ["new-apps"] } }).limit(12);
-
-    return NextResponse.json(
-      {
-        featuredApps,
-        updatedGames,
-        updatedApps,
-        newGames,
-        newApps,
-      },
-      { status: 200 },
-    );
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: "Error fetching apps" },
-      { status: 500 },
-    );
-  }
-}
-
 export async function POST(req: Request) {
   try {
     await connectToDatabase();
