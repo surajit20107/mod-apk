@@ -14,8 +14,9 @@ const apkSchema = new Schema({
   description: String,
   downloadUrl: String,
   requirements: String,
-  screenshots: [String],
   modInfo: String,
+  screenshots: [String],
+  tags: [String],
 }, {timestamps: true})
 
 export default mongoose.models.Apk || model("Apk", apkSchema);

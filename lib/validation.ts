@@ -25,4 +25,6 @@ export const appSchema = z.object({
   downloadUrl: z.string().trim().min(5).max(250),
   requirements: z.string().trim().min(5).max(10),
   modInfo: z.string().trim().min(10).max(255),
+  screenshots: z.array(z.string()),
+  tags: z.array(z.string()),
 })
