@@ -6,8 +6,7 @@ export const userSchema = z.object({
   username: z.string().trim().min(3).max(50),
   name: z.string().trim().min(3).max(100),
   email: z.string().trim().regex(emailRegex, "Invalid email address"),
-  phone: z.string().trim().regex(/^[0-9]{10}$/, "Phone must be a valid 10-digit number"),
-  password: z.string().trim().min(6).max(20),
+  password: z.string().trim().min(6).max(50),
 })
 
 export const appSchema = z.object({
