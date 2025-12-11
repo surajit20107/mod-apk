@@ -4,7 +4,6 @@ const emailRegex = /^[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_
 
 export const userSchema = z.object({
   username: z.string().trim().min(3).max(50),
-  name: z.string().trim().min(3).max(100),
   email: z.string().trim().regex(emailRegex, "Invalid email address"),
   password: z.string().trim().min(6).max(50),
 })
