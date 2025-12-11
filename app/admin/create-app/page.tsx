@@ -1,7 +1,17 @@
 "use client";
 import { useState } from "react";
 import { CldUploadButton } from "next-cloudinary";
-import { Upload, Image, Camera, Package, Info, Link, Tag, Star, Send } from "lucide-react";
+import {
+  Upload,
+  Image,
+  Camera,
+  Package,
+  Info,
+  Link,
+  Tag,
+  Star,
+  Send,
+} from "lucide-react";
 
 interface FormData {
   name: string;
@@ -55,7 +65,8 @@ export default function CreateApp() {
     setTimeout(() => setIsSubmitting(false), 1000);
   };
 
-  const inputClasses = "w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-200";
+  const inputClasses =
+    "w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-200";
   const labelClasses = "block text-sm font-medium text-gray-300 mb-2";
 
   return (
@@ -65,8 +76,12 @@ export default function CreateApp() {
           <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600 mb-4">
             <Package className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">Create New App</h1>
-          <p className="text-gray-400">Fill in the details below to add a new application</p>
+          <h1 className="text-3xl sm:text-4xl font-bold text-white mb-2">
+            Create New App
+          </h1>
+          <p className="text-gray-400">
+            Fill in the details below to add a new application
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
@@ -75,7 +90,9 @@ export default function CreateApp() {
               <div className="p-2 rounded-lg bg-blue-500/10">
                 <Info className="w-5 h-5 text-blue-400" />
               </div>
-              <h2 className="text-xl font-semibold text-white">Basic Information</h2>
+              <h2 className="text-xl font-semibold text-white">
+                Basic Information
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -91,7 +108,9 @@ export default function CreateApp() {
                   placeholder="Enter app name"
                   className={inputClasses}
                   value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, name: e.target.value })
+                  }
                 />
               </div>
 
@@ -107,7 +126,9 @@ export default function CreateApp() {
                   placeholder="com.example.app"
                   className={inputClasses}
                   value={formData.packageName}
-                  onChange={(e) => setFormData({ ...formData, packageName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, packageName: e.target.value })
+                  }
                 />
               </div>
 
@@ -123,7 +144,9 @@ export default function CreateApp() {
                   placeholder="https://publisher.com"
                   className={inputClasses}
                   value={formData.publisher}
-                  onChange={(e) => setFormData({ ...formData, publisher: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, publisher: e.target.value })
+                  }
                 />
               </div>
 
@@ -139,7 +162,9 @@ export default function CreateApp() {
                   placeholder="Games, Tools, etc."
                   className={inputClasses}
                   value={formData.category}
-                  onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, category: e.target.value })
+                  }
                 />
               </div>
 
@@ -155,7 +180,9 @@ export default function CreateApp() {
                   placeholder="Android, iOS, etc."
                   className={inputClasses}
                   value={formData.platform}
-                  onChange={(e) => setFormData({ ...formData, platform: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, platform: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -166,7 +193,9 @@ export default function CreateApp() {
               <div className="p-2 rounded-lg bg-purple-500/10">
                 <Star className="w-5 h-5 text-purple-400" />
               </div>
-              <h2 className="text-xl font-semibold text-white">Version & Pricing</h2>
+              <h2 className="text-xl font-semibold text-white">
+                Version & Pricing
+              </h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -182,7 +211,9 @@ export default function CreateApp() {
                   placeholder="1.0.0"
                   className={inputClasses}
                   value={formData.version}
-                  onChange={(e) => setFormData({ ...formData, version: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, version: e.target.value })
+                  }
                 />
               </div>
 
@@ -198,7 +229,9 @@ export default function CreateApp() {
                   placeholder="50 MB"
                   className={inputClasses}
                   value={formData.size}
-                  onChange={(e) => setFormData({ ...formData, size: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, size: e.target.value })
+                  }
                 />
               </div>
 
@@ -214,7 +247,9 @@ export default function CreateApp() {
                   placeholder="Free or $9.99"
                   className={inputClasses}
                   value={formData.price}
-                  onChange={(e) => setFormData({ ...formData, price: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, price: e.target.value })
+                  }
                 />
               </div>
 
@@ -233,7 +268,9 @@ export default function CreateApp() {
                   placeholder="4.5"
                   className={inputClasses}
                   value={formData.rating}
-                  onChange={(e) => setFormData({ ...formData, rating: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, rating: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -244,7 +281,9 @@ export default function CreateApp() {
               <div className="p-2 rounded-lg bg-green-500/10">
                 <Link className="w-5 h-5 text-green-400" />
               </div>
-              <h2 className="text-xl font-semibold text-white">Details & Links</h2>
+              <h2 className="text-xl font-semibold text-white">
+                Details & Links
+              </h2>
             </div>
 
             <div className="space-y-6">
@@ -260,7 +299,9 @@ export default function CreateApp() {
                   rows={4}
                   className={`${inputClasses} resize-none`}
                   value={formData.description}
-                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, description: e.target.value })
+                  }
                 />
               </div>
 
@@ -277,7 +318,9 @@ export default function CreateApp() {
                     placeholder="https://download.link/app.apk"
                     className={inputClasses}
                     value={formData.downloadUrl}
-                    onChange={(e) => setFormData({ ...formData, downloadUrl: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, downloadUrl: e.target.value })
+                    }
                   />
                 </div>
 
@@ -293,7 +336,9 @@ export default function CreateApp() {
                     placeholder="Android 5.0+"
                     className={inputClasses}
                     value={formData.requirements}
-                    onChange={(e) => setFormData({ ...formData, requirements: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, requirements: e.target.value })
+                    }
                   />
                 </div>
 
@@ -309,7 +354,9 @@ export default function CreateApp() {
                     placeholder="Premium Unlocked, No Ads"
                     className={inputClasses}
                     value={formData.modInfo}
-                    onChange={(e) => setFormData({ ...formData, modInfo: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, modInfo: e.target.value })
+                    }
                   />
                 </div>
 
@@ -328,7 +375,9 @@ export default function CreateApp() {
                     onChange={(e) =>
                       setFormData({
                         ...formData,
-                        tags: e.target.value.split(",").map((tag) => tag.trim()),
+                        tags: e.target.value
+                          .split(",")
+                          .map((tag) => tag.trim()),
                       })
                     }
                   />
@@ -400,14 +449,18 @@ export default function CreateApp() {
                           />
                         ))}
                       </div>
-                      <p className="text-sm text-green-400">{formData.screenshots.length} screenshot(s) uploaded</p>
+                      <p className="text-sm text-green-400">
+                        {formData.screenshots.length} screenshot(s) uploaded
+                      </p>
                     </div>
                   ) : (
                     <div className="space-y-3">
                       <div className="w-12 h-12 mx-auto rounded-xl bg-gray-700 flex items-center justify-center">
                         <Camera className="w-6 h-6 text-gray-400" />
                       </div>
-                      <p className="text-sm text-gray-400">Upload screenshots</p>
+                      <p className="text-sm text-gray-400">
+                        Upload screenshots
+                      </p>
                     </div>
                   )}
                   <CldUploadButton
@@ -419,7 +472,10 @@ export default function CreateApp() {
                       setFormData((prev) => ({
                         ...prev,
                         screenshots: [...prev.screenshots, screenshotsUrl],
-                        screenshotsPublicIds: [...prev.screenshotsPublicIds, ScreenshotsPublicIds],
+                        screenshotsPublicIds: [
+                          ...prev.screenshotsPublicIds,
+                          ScreenshotsPublicIds,
+                        ],
                       }));
                     }}
                   >

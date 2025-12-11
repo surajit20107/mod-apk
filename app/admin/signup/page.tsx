@@ -17,7 +17,8 @@ export default function AdminRegister() {
     setTimeout(() => setIsSubmitting(false), 1000);
   };
 
-  const inputClasses = "w-full pl-11 pr-4 py-3 rounded-xl border border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-200";
+  const inputClasses =
+    "w-full pl-11 pr-4 py-3 rounded-xl border border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-200";
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center px-4 py-8">
@@ -33,7 +34,10 @@ export default function AdminRegister() {
         <div className="bg-gray-800/40 backdrop-blur-sm rounded-2xl border border-gray-700/50 p-6 sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div>
-              <label htmlFor="userName" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="userName"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Username
               </label>
               <div className="relative">
@@ -47,13 +51,18 @@ export default function AdminRegister() {
                   placeholder="Enter username"
                   className={inputClasses}
                   value={formData.username}
-                  onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, username: e.target.value })
+                  }
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Email Address
               </label>
               <div className="relative">
@@ -67,13 +76,18 @@ export default function AdminRegister() {
                   placeholder="Enter email address"
                   className={inputClasses}
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                 />
               </div>
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-300 mb-2">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-300 mb-2"
+              >
                 Password
               </label>
               <div className="relative">
@@ -87,7 +101,9 @@ export default function AdminRegister() {
                   placeholder="Create a strong password"
                   className={inputClasses}
                   value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
                 />
               </div>
             </div>
