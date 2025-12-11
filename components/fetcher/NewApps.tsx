@@ -1,27 +1,62 @@
 "use client";
 import useSWR from "swr";
+import { Zap } from "lucide-react";
+import AppCard from "@/components/ui/AppCard";
+import AppCardSkeleton from "@/components/ui/AppCardSkeleton";
+import SectionHeader from "@/components/ui/SectionHeader";
+
+const fetcher = (url: string) => fetch(url).then(r => r.json());
 
 export default function NewApps() {
   const url: string = "/api/v1/apk/new-apps";
   
-  const fetcher= (url: string) => fetch(url).then(r => r.json());
-  
   const {
-    data: apks,
+    data,
     error,
     isLoading,
   } = useSWR(url, fetcher, {
     revalidateOnFocus: false,
-    dedupingInterval: 60 * 60 * 60
-  })
-  
-  if (error) return <div>failed to load data</div>
-  
-  if (isLoading) return <div>Loading...</div>
-  console.log("new apps:", apks)
+    dedupingInterval: 60 * 60 * 1000
+  });
+
+  const apps = data?.newApps || [];
+
   return (
-    <div>
-      new apps
-    </div>
-  )
+    <section className="mb-8 sm:mb-12">
+      <SectionHeader 
+        title="New Apps" 
+        icon={Zap} 
+        iconColor="text-green-400"
+        viewAllHref="/apps/new"
+      />
+
+      {error && (
+        <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-center">
+          Failed to load new apps
+        </div>
+      )}
+
+      {isLoading && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <AppCardSkeleton key={i} variant="featured" />
+          ))}
+        </div>
+      )}
+
+      {!isLoading && !error && apps.length > 0 && (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {apps.slice(0, 4).map((app: any) => (
+            <AppCard key={app._id} app={app} variant="featured" />
+          ))}
+        </div>
+      )}
+
+      {!isLoading && !error && apps.length === 0 && (
+        <div className="text-center text-gray-400 py-8">
+          No new apps available
+        </div>
+      )}
+    </section>
+  );
 }
