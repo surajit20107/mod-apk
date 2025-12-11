@@ -23,6 +23,7 @@ export async function POST(req: Request) {
     const {
       name,
       image,
+      imagePublicId,
       packageName,
       publisher,
       category,
@@ -36,12 +37,14 @@ export async function POST(req: Request) {
       requirements,
       modInfo,
       screenshots,
+      screenshotsPublicIds,
       tags,
     } = await req.json();
 
     const newApk = new Apk({
       name,
       image,
+      imagePublicId,
       packageName,
       publisher,
       category,
@@ -54,8 +57,9 @@ export async function POST(req: Request) {
       downloadUrl,
       requirements,
       modInfo,
-      screenshots,
       tags,
+      screenshots,
+      screenshotsPublicIds,
     });
 
     const validation = appSchema.safeParse(newApk);

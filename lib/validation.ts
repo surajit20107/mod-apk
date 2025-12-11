@@ -21,7 +21,7 @@ export const appSchema = z.object({
   price: z.string().trim().min(3).max(100),
   description: z.string().trim().min(3).max(100),
   downloadUrl: z.string().trim().min(5).max(250),
-  requirements: z.string().trim().min(5).max(10),
+  requirements: z.string().trim().min(5).max(50),
   modInfo: z.string().trim().min(10).max(255),
   screenshots: z.array(z.string()),
   tags: z.array(z.string()),
