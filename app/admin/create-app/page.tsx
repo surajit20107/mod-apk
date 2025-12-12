@@ -55,14 +55,37 @@ export default function CreateApp() {
     screenshotsPublicIds: [],
     tags: [],
   });
+  const [error, setError] = useState<string | null>(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    console.log(formData);
-    setTimeout(() => setIsSubmitting(false), 1000);
+    setError(null);
+    const userId = localStorage.getItem("userId");
+    try {
+      const res = await fetch("/api/v1/admin", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "userId": userId || "",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        throw new Error("Failed to create app");
+      }
+      const data = await res.json();
+      alert(data.message);
+    } catch (error) {
+      setError(
+        (error as Error).message ||
+          "An error occurred while creating the app, please try again later.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClasses =
