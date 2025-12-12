@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
       username,
       email,
       password,
-      role: "admin",
+      role: "user",
     });
 
     await newUser.save();
