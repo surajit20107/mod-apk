@@ -31,7 +31,7 @@ export default function AdminRegister() {
       }
       const data = await res.json();
       localStorage.setItem("userId", data.userId);
-      router.push("/admin/create-ap");
+      router.push("/admin/dashboard");
     } catch (error) {
       setError(
         (error as Error).message ||

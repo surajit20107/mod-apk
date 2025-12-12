@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { CldUploadButton } from "next-cloudinary";
 import {
@@ -11,8 +11,10 @@ import {
   Link,
   Tag,
   Star,
-  Send,
+  Save,
   ArrowLeft,
+  Loader2,
+  X,
 } from "lucide-react";
 
 interface FormData {
@@ -36,7 +38,8 @@ interface FormData {
   tags: string[];
 }
 
-export default function CreateApp() {
+export default function EditApp({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = use(params);
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     name: "",
@@ -58,17 +61,66 @@ export default function CreateApp() {
     screenshotsPublicIds: [],
     tags: [],
   });
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchApp = async () => {
+      try {
+        const res = await fetch(`/api/v1/admin/apps/${id}`, {
+          credentials: "include",
+        });
+
+        if (!res.ok) {
+          if (res.status === 401) {
+            router.push("/admin/signin");
+            return;
+          }
+          throw new Error("Failed to fetch app");
+        }
+
+        const data = await res.json();
+        const app = data.app;
+
+        setFormData({
+          name: app.name || "",
+          image: app.image || "",
+          imagePublicId: app.imagePublicId || "",
+          packageName: app.packageName || "",
+          publisher: app.publisher || "",
+          category: app.category || "",
+          size: app.size || "",
+          rating: app.rating?.toString() || "",
+          version: app.version || "",
+          platform: app.platform || "",
+          price: app.price || "",
+          description: app.description || "",
+          downloadUrl: app.downloadUrl || "",
+          requirements: app.requirements || "",
+          modInfo: app.modInfo || "",
+          screenshots: app.screenshots || [],
+          screenshotsPublicIds: app.screenshotsPublicIds || [],
+          tags: app.tags || [],
+        });
+      } catch (err) {
+        setError((err as Error).message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchApp();
+  }, [id, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setError(null);
+
     try {
-      const res = await fetch("/api/v1/admin", {
-        method: "POST",
+      const res = await fetch(`/api/v1/admin/apps/${id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -78,30 +130,45 @@ export default function CreateApp() {
           rating: parseFloat(formData.rating) || 0,
         }),
       });
+
       if (!res.ok) {
         if (res.status === 401) {
           router.push("/admin/signin");
           return;
         }
         const data = await res.json();
-        throw new Error(data.message || "Failed to create app");
+        throw new Error(data.message || "Failed to update app");
       }
+
       const data = await res.json();
       alert(data.message);
       router.push("/admin/dashboard");
-    } catch (error) {
-      setError(
-        (error as Error).message ||
-          "An error occurred while creating the app, please try again later.",
-      );
+    } catch (err) {
+      setError((err as Error).message);
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  const removeScreenshot = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      screenshots: prev.screenshots.filter((_, i) => i !== index),
+      screenshotsPublicIds: prev.screenshotsPublicIds.filter((_, i) => i !== index),
+    }));
+  };
+
   const inputClasses =
     "w-full px-4 py-3 rounded-xl border border-gray-600 bg-gray-800/50 text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all duration-200";
   const labelClasses = "block text-sm font-medium text-gray-300 mb-2";
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex items-center justify-center">
+        <Loader2 className="w-8 h-8 text-blue-500 animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-8 px-4 sm:px-6 lg:px-8">
@@ -114,16 +181,14 @@ export default function CreateApp() {
             <ArrowLeft className="w-6 h-6" />
           </button>
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600">
+            <div className="p-3 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600">
               <Package className="w-8 h-8 text-white" />
             </div>
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold text-white">
-                Create New App
+                Edit App
               </h1>
-              <p className="text-gray-400">
-                Fill in the details below to add a new application
-              </p>
+              <p className="text-gray-400">Update application details</p>
             </div>
           </div>
         </div>
@@ -479,7 +544,7 @@ export default function CreateApp() {
                     }}
                   >
                     <Upload className="w-4 h-4" />
-                    Upload Icon
+                    {formData.image ? "Change Icon" : "Upload Icon"}
                   </CldUploadButton>
                 </div>
               </div>
@@ -490,13 +555,21 @@ export default function CreateApp() {
                   {formData.screenshots.length > 0 ? (
                     <div className="space-y-3">
                       <div className="flex justify-center gap-2 flex-wrap">
-                        {formData.screenshots.slice(0, 3).map((url, i) => (
-                          <img
-                            key={i}
-                            src={url}
-                            alt={`Screenshot ${i + 1}`}
-                            className="w-16 h-16 rounded-lg object-cover"
-                          />
+                        {formData.screenshots.map((url, i) => (
+                          <div key={i} className="relative group">
+                            <img
+                              src={url}
+                              alt={`Screenshot ${i + 1}`}
+                              className="w-16 h-16 rounded-lg object-cover"
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeScreenshot(i)}
+                              className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                            >
+                              <X className="w-3 h-3" />
+                            </button>
+                          </div>
                         ))}
                       </div>
                       <p className="text-sm text-green-400">
@@ -530,7 +603,7 @@ export default function CreateApp() {
                     }}
                   >
                     <Upload className="w-4 h-4" />
-                    Upload Screenshots
+                    Add Screenshot
                   </CldUploadButton>
                 </div>
               </div>
@@ -549,17 +622,17 @@ export default function CreateApp() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-4 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-200 font-semibold text-lg shadow-lg shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-3 bg-gradient-to-r from-orange-500 to-amber-500 text-white px-8 py-4 rounded-xl hover:from-orange-600 hover:to-amber-600 transition-all duration-200 font-semibold text-lg shadow-lg shadow-orange-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  Creating...
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Saving...
                 </>
               ) : (
                 <>
-                  <Send className="w-5 h-5" />
-                  Create App
+                  <Save className="w-5 h-5" />
+                  Save Changes
                 </>
               )}
             </button>

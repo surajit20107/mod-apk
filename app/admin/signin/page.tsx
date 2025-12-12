@@ -30,7 +30,7 @@ export default function AdminLogin() {
       }
       const data = await res.json();
       localStorage.setItem("userId", data.userId);
-      router.push("/admin/create-app");
+      router.push("/admin/dashboard");
     } catch (error) {
       throw new Error(
         (error as Error).message || "Failed to signin, please try again later.",
