@@ -2,19 +2,44 @@
 import { useState } from "react";
 import Link from "next/link";
 import { UserPlus, User, Mail, Lock, ArrowRight } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function AdminRegister() {
+  const router = useRouter();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
     password: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => setIsSubmitting(false), 1000);
+    setError(null);
+    try {
+      const res = await fetch("/api/admin/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      if (!res.ok) {
+        setError("Failed to create account, please try again later.");
+      }
+      const data = await res.json();
+      localStorage.setItem("userId", data.userId);
+      router.push("/admin/create-ap");
+    } catch (error) {
+      setError(
+        (error as Error).message ||
+          "Failed to create account, please try again later.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const inputClasses =

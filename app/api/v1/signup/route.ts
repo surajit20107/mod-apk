@@ -65,11 +65,12 @@ export async function POST(req: NextRequest) {
     const response = NextResponse.json(
       {
         message: "User created successfully",
-        user: {
-          username: newUser.username,
-          email: newUser.email,
-          role: newUser.role,
-        },
+        userId: newUser._id,
+        // user: {
+        //   username: newUser.username,
+        //   email: newUser.email,
+        //   role: newUser.role,
+        // },
       },
       { status: 201 },
     );

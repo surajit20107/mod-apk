@@ -22,7 +22,7 @@ export async function POST(req: NextRequest) {
     await connectToDatabase();
 
     const user = await User.findOne({
-      $or: [{ email: emailAndUser }, { username: emailAndUser }]
+      $or: [{ email: emailAndUser }, { username: emailAndUser }],
     }).select("+password");
 
     if (!user) {
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
     const token = user.generateToken();
 
     const response = NextResponse.json(
-      { message: "Sign in successfully" },
+      { message: "Sign in successfully", userId: user._id },
       { status: 200 },
     );
 
