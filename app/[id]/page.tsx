@@ -1,6 +1,8 @@
 "use client"
 import { useParams } from "next/navigation";
 import useSWR from "swr";
+import AppCardSkeleton from "@/components/ui/AppCardSkeleton";
+import { Home } from "lucide-react";
 
 export default function AppPage() {
   const params = useParams();
