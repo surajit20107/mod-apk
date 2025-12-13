@@ -23,7 +23,7 @@ export default function AppCard({ app, variant = "featured" }: AppCardProps) {
   
   if (variant === "compact") {
     return (
-      <Link href={`/app/${app._id}`}>
+      <Link href={`/${app._id}`}>
         <div className="bg-gray-800/40 backdrop-blur-sm rounded-xl border border-gray-700/50 p-3 hover:border-gray-600 transition-all duration-200 group">
           <div className="flex gap-3">
             <div className="relative flex-shrink-0">
@@ -78,7 +78,7 @@ export default function AppCard({ app, variant = "featured" }: AppCardProps) {
   }
 
   return (
-    <Link href={`/app/${app._id}`}>
+    <Link href={`/${app._id}`}>
       <div className="bg-gray-800/40 backdrop-blur-sm rounded-xl border border-gray-700/50 p-4 hover:border-gray-600 transition-all duration-200 group h-full flex flex-col">
         <div className="flex gap-4">
           <div className="relative flex-shrink-0">

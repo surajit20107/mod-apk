@@ -46,7 +46,7 @@ export default function HeroBanner({ apps }: HeroBannerProps) {
           {displayApps.map((app) => (
             <Link
               key={app._id}
-              href={`/app/${app._id}`}
+              href={`/${app._id}`}
               className="min-w-full"
             >
               <div className="relative h-40 sm:h-52 md:h-64 bg-gradient-to-br from-gray-800 to-gray-900 rounded-2xl overflow-hidden group">
