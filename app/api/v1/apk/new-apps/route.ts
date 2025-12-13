@@ -6,7 +6,12 @@ export async function GET() {
   try {
     await connectToDatabase();
 
-    const newApps = await Apk.find({ tags: { $in: ["new-apps"] } }).limit(12);
+    const newApps = await Apk.find({ tags: { $in: ["new-apps"] } })
+      .limit(12)
+      .sort({ createdAt: -1 })
+      .select(
+        "-imagePublicId -packageName -publisher -category -platform -price -downloadUrl -requirements -modInfo -tags -screenshots -screenshotsPublicIds -createdAt -updatedAt",
+      );
 
     return NextResponse.json(
       {
