@@ -19,7 +19,7 @@ export const appSchema = z.object({
   version: z.string().trim().min(3).max(100),
   platform: z.string().trim().min(3).max(100),
   price: z.string().trim().min(3).max(100),
-  description: z.string().trim().min(3).max(255),
+  description: z.string().trim().min(3),
   downloadUrl: z.string().trim().min(5).max(100),
   requirements: z.string().trim().min(5).max(100),
   modInfo: z.string().trim().min(10).max(255),
