@@ -1,25 +1,27 @@
-"use client"
+"use client";
+import { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import Link from "next/link";
-import { 
-  Home, 
-  ChevronRight, 
-  Download, 
-  Star, 
-  Calendar, 
-  Smartphone, 
-  HardDrive, 
-  Globe, 
-  DollarSign, 
+import {
+  Home,
+  ChevronRight,
+  Download,
+  Star,
+  Calendar,
+  Smartphone,
+  HardDrive,
+  Globe,
+  DollarSign,
   RefreshCw,
   User,
   Tag,
   Package,
   Shield,
+  ShieldCheck,
   ChevronDown,
   ChevronUp,
-  ExternalLink
+  ExternalLink,
 } from "lucide-react";
 import { useState } from "react";
 
@@ -72,10 +74,15 @@ function AppDetailSkeleton() {
   );
 }
 
-function InfoCard({ icon: Icon, label, value, valueColor = "text-white" }: { 
+function InfoCard({
+  icon: Icon,
+  label,
+  value,
+  valueColor = "text-white",
+}: {
   icon: React.ComponentType<{ className?: string }>;
   label: string;
-  value: string;
+  value: string | ReactNode;
   valueColor?: string;
 }) {
   return (
@@ -84,7 +91,9 @@ function InfoCard({ icon: Icon, label, value, valueColor = "text-white" }: {
         <Icon className="w-5 h-5 text-pink-400" />
       </div>
       <p className="text-gray-400 text-xs mb-1">{label}</p>
-      <p className={`font-semibold text-sm truncate ${valueColor}`}>{value}</p>
+      <div className={`font-semibold text-sm truncate ${valueColor}`}>
+        {value}
+      </div>
     </div>
   );
 }
@@ -106,7 +115,9 @@ function ScreenshotGallery({ screenshots }: { screenshots: string[] }) {
             key={index}
             onClick={() => setSelectedIndex(index)}
             className={`flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
-              selectedIndex === index ? "border-pink-500 scale-105" : "border-transparent hover:border-gray-600"
+              selectedIndex === index
+                ? "border-pink-500 scale-105"
+                : "border-transparent hover:border-gray-600"
             }`}
           >
             <img
@@ -152,12 +163,13 @@ function ModInfoSection({ modInfo }: { modInfo: string }) {
 }
 
 function RelatedApps({ currentAppId }: { currentAppId: string }) {
-  const fetcher = (url: string) => fetch(url).then(r => r.json());
-  const { data } = useSWR('/api/v1/apk/new-apps', fetcher, {
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const { data } = useSWR("/api/v1/apk/new-apps", fetcher, {
     revalidateOnFocus: false,
   });
 
-  const apps = data?.newApps?.filter((app: App) => app._id !== currentAppId) || [];
+  const apps =
+    data?.newApps?.filter((app: App) => app._id !== currentAppId) || [];
 
   if (apps.length === 0) return null;
 
@@ -194,7 +206,9 @@ function RelatedApps({ currentAppId }: { currentAppId: string }) {
                     <span>{app.size}</span>
                   </div>
                   <div className="flex items-center justify-between mt-1">
-                    <span className="text-xs text-gray-400">v{app.version}</span>
+                    <span className="text-xs text-gray-400">
+                      v{app.version}
+                    </span>
                     {app.tags?.includes("updated") && (
                       <span className="bg-blue-500/20 text-blue-400 text-[10px] font-bold px-2 py-0.5 rounded">
                         UPDATED
@@ -213,21 +227,30 @@ function RelatedApps({ currentAppId }: { currentAppId: string }) {
 
 export default function AppPage() {
   const params = useParams();
-  const fetcher = (url: string) => fetch(url).then(r => r.json());
-  const { data, error, isLoading } = useSWR(`/api/v1/apk/${params.id}`, fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 60 * 60 * 1000,
-  });
+  const fetcher = (url: string) => fetch(url).then((r) => r.json());
+  const { data, error, isLoading } = useSWR(
+    `/api/v1/apk/${params.id}`,
+    fetcher,
+    {
+      revalidateOnFocus: false,
+      dedupingInterval: 60 * 60 * 1000,
+    },
+  );
 
   if (isLoading) return <AppDetailSkeleton />;
-  
+
   if (error || !data || data.error) {
     return (
       <div className="container mx-auto px-4 py-16 text-center">
         <div className="bg-gray-800/50 rounded-xl p-8 max-w-md mx-auto">
           <h2 className="text-2xl font-bold text-white mb-4">App Not Found</h2>
-          <p className="text-gray-400 mb-6">The app you're looking for doesn't exist or has been removed.</p>
-          <Link href="/" className="inline-flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors">
+          <p className="text-gray-400 mb-6">
+            The app you're looking for doesn't exist or has been removed.
+          </p>
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white px-6 py-3 rounded-xl font-semibold transition-colors"
+          >
             <Home className="w-5 h-5" />
             Go Home
           </Link>
@@ -237,10 +260,10 @@ export default function AppPage() {
   }
 
   const app: App = data;
-  const formattedDate = new Date(app.updatedAt).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: '2-digit'
+  const formattedDate = new Date(app.updatedAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
   });
 
   const renderStars = (rating: number) => {
@@ -257,15 +280,30 @@ export default function AppPage() {
       <div className="bg-gradient-to-b from-gray-800/80 to-transparent py-6 md:py-8">
         <div className="container mx-auto px-4">
           <nav className="flex items-center gap-2 text-sm mb-6 flex-wrap">
-            <Link href="/" className="text-pink-400 hover:text-pink-300 transition-colors">
+            <Link
+              href="/"
+              className="text-pink-400 hover:text-pink-300 transition-colors"
+            >
               <Home className="w-4 h-4" />
             </Link>
             <ChevronRight className="w-4 h-4 text-gray-500" />
-            <Link href="/" className="text-pink-400 hover:text-pink-300 transition-colors">Apps</Link>
+            {/* <Link
+              href="/"
+              className="text-pink-400 hover:text-pink-300 transition-colors"
+            >
+              Apps
+            </Link>
+            <ChevronRight className="w-4 h-4 text-gray-500" /> */}
+            <Link
+              href={`/category/${app.category}`}
+              className="text-pink-400 hover:text-pink-300 transition-colors"
+            >
+              {app.category.charAt(0).toUpperCase() + app.category.slice(1)}
+            </Link>
             <ChevronRight className="w-4 h-4 text-gray-500" />
-            <Link href="/" className="text-pink-400 hover:text-pink-300 transition-colors">{app.category}</Link>
-            <ChevronRight className="w-4 h-4 text-gray-500" />
-            <span className="text-gray-400 truncate max-w-[150px]">{app.name}</span>
+            <span className="text-gray-400 truncate max-w-[150px]">
+              {app.name}
+            </span>
           </nav>
 
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -286,7 +324,7 @@ export default function AppPage() {
               <h1 className="text-2xl md:text-3xl font-bold text-white mb-3">
                 {app.name} v{app.version}
               </h1>
-              
+
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-4">
                 <span className="bg-pink-500/20 text-pink-400 text-sm font-semibold px-3 py-1 rounded-lg">
                   v{app.version}
@@ -299,7 +337,9 @@ export default function AppPage() {
 
               <div className="flex items-center justify-center md:justify-start gap-2 mb-4">
                 <div className="flex">{renderStars(app.rating)}</div>
-                <span className="text-white font-semibold">{app.rating.toFixed(1)}</span>
+                <span className="text-white font-semibold">
+                  {app.rating.toFixed(1)}
+                </span>
                 <span className="text-gray-400 text-sm">(Reviews)</span>
               </div>
 
@@ -320,20 +360,73 @@ export default function AppPage() {
       <div className="container mx-auto px-4 py-6 md:py-8">
         {app.description && (
           <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 mb-8">
-            <p className="text-gray-300 text-sm leading-relaxed">{app.description}</p>
+            <p className="text-gray-300 text-sm leading-relaxed">
+              {app.description}
+            </p>
           </div>
         )}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 md:gap-4 mb-8">
           <InfoCard icon={Package} label="App Name" value={app.name} />
-          <InfoCard icon={RefreshCw} label="Version" value={`v${app.version}`} valueColor="text-pink-400" />
-          <InfoCard icon={Calendar} label="Last Updated" value={formattedDate} valueColor="text-pink-400" />
-          <InfoCard icon={User} label="Publisher" value={app.publisher} valueColor="text-pink-400" />
-          <InfoCard icon={Smartphone} label="Requirements" value={app.requirements} valueColor="text-pink-400" />
-          <InfoCard icon={Tag} label="Category" value={app.category} valueColor="text-pink-400" />
+          <InfoCard
+            icon={RefreshCw}
+            label="Version"
+            value={`v${app.version}`}
+            valueColor="text-pink-400"
+          />
+          <InfoCard
+            icon={Calendar}
+            label="Last Updated"
+            value={formattedDate}
+            valueColor="text-pink-400"
+          />
+          <InfoCard
+            icon={User}
+            label="Publisher"
+            value={
+              <Link
+                href={app.publisher}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1 hover:underline hover:text-pink-300 transition-colors"
+              >
+                Play Store
+                <ExternalLink className="w-3 h-3" />
+              </Link>
+            }
+            valueColor="text-blue-400"
+          />
+          <InfoCard
+            icon={Smartphone}
+            label="Requirements"
+            value={app.requirements}
+            valueColor="text-pink-400"
+          />
+          <InfoCard
+            icon={Tag}
+            label="Category"
+            value={app.category}
+            valueColor="text-pink-400"
+          />
           <InfoCard icon={HardDrive} label="Size" value={app.size} />
-          <InfoCard icon={Globe} label="Platform" value={app.platform} valueColor="text-pink-400" />
-          <InfoCard icon={DollarSign} label="Price" value={app.price} valueColor="text-green-400" />
+          <InfoCard
+            icon={Globe}
+            label="Platform"
+            value={app.platform}
+            valueColor="text-pink-400"
+          />
+          <InfoCard
+            icon={DollarSign}
+            label="Price"
+            value={app.price}
+            valueColor="text-green-400"
+          />
+          <InfoCard
+            icon={ShieldCheck}
+            label="Safe & Secure"
+            value="100% Safe"
+            valueColor="text-white"
+          />
         </div>
 
         <ScreenshotGallery screenshots={app.screenshots} />
@@ -359,7 +452,7 @@ export default function AppPage() {
           </div>
         )} */}
 
-        <div className="mb-8">
+        {/* <div className="mb-8">
           <a
             href={app.downloadUrl}
             target="_blank"
@@ -372,7 +465,7 @@ export default function AppPage() {
               <ExternalLink className="w-5 h-5" />
             </div>
           </a>
-        </div>
+        </div> */}
 
         <RelatedApps currentAppId={app._id} />
       </div>
