@@ -340,7 +340,7 @@ export default function AppPage() {
 
         <ModInfoSection modInfo={app.modInfo} />
 
-        {app.tags && app.tags.length > 0 && (
+        {/* {app.tags && app.tags.length > 0 && (
           <div className="mb-8">
             <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
               <span className="w-1 h-6 bg-pink-500 rounded-full"></span>
@@ -357,7 +357,7 @@ export default function AppPage() {
               ))}
             </div>
           </div>
-        )}
+        )} */}
 
         <div className="mb-8">
           <a
