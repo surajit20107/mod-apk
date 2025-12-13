@@ -74,7 +74,7 @@ export default function AdminLogin() {
                   name="emailAndUser"
                   placeholder="Enter email or username"
                   className={inputClasses}
-                  value={formData.emailAndUsername}
+                  value={formData.emailAndUsername.toLowerCase()}
                   onChange={(e) =>
                     setFormData({
                       ...formData,
@@ -118,6 +118,13 @@ export default function AdminLogin() {
                 />
               </div>
             </div>
+
+            {/* error message*/}
+            {error && (
+              <div className="text-red-500 text-sm text-center bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+                {error}
+              </div>
+            )}
 
             <button
               type="submit"

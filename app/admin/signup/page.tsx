@@ -75,7 +75,7 @@ export default function AdminRegister() {
                   type="text"
                   placeholder="Enter username"
                   className={inputClasses}
-                  value={formData.username}
+                  value={formData.username.toLowerCase()}
                   onChange={(e) =>
                     setFormData({ ...formData, username: e.target.value })
                   }
@@ -132,6 +132,13 @@ export default function AdminRegister() {
                 />
               </div>
             </div>
+
+            {/* error message*/}
+            {error && (
+              <div className="text-red-500 text-sm text-center bg-red-500/10 border border-red-500/20 rounded-lg p-3">
+                {error}
+              </div>
+            )}
 
             <button
               type="submit"
