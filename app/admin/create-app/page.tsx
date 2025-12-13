@@ -365,7 +365,7 @@ export default function CreateApp() {
                     id="downloadurl"
                     type="text"
                     name="downloadUrl"
-                    placeholder="https://download.link/app.apk"
+                    placeholder="https://download.link/mod.apk"
                     className={inputClasses}
                     value={formData.downloadUrl}
                     onChange={(e) =>
@@ -396,18 +396,16 @@ export default function CreateApp() {
                   <label htmlFor="modinfo" className={labelClasses}>
                     Mod Info
                   </label>
-                  <input
+                  <textarea
                     required
                     id="modinfo"
-                    type="text"
                     name="modInfo"
-                    placeholder="Premium Unlocked, No Ads"
-                    className={inputClasses}
+                    placeholder="Describe the mod features..."
+                    className={`${inputClasses} resize-none`}
                     value={formData.modInfo}
                     onChange={(e) =>
                       setFormData({ ...formData, modInfo: e.target.value })
-                    }
-                  />
+                    }></textarea>
                 </div>
 
                 <div>
