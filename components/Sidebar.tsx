@@ -1,6 +1,5 @@
 import { X, Search, Home, Gamepad2, Smartphone, FileText, HelpCircle, Sun } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -40,31 +39,31 @@ export default function Sidebar({isOpen, onClose}: SidebarProps) {
 
       {/* Category */}
       <div className="category mt-6 grid grid-cols-2 sm:grid-cols-3 gap-10 mx-auto w-fit">
-        <Link href="/">
+        <a href="/">
           <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#3B82F6] to-[#93C5FD] flex flex-col items-center justify-center gap-1 font-medium">
             <Home /> Home
           </div>
-        </Link>
-        <Link href="/games">
+        </a>
+        <a href="/games">
           <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#EF4444] to-[#FCA5A5] flex flex-col items-center justify-center gap-1 font-medium">
             <Gamepad2 /> Games
           </div>
-        </Link>
-        <Link href="/apps">
+        </a>
+        <a href="/apps">
           <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#9333EA] to-[#C084FC] flex flex-col items-center justify-center gap-1 font-medium">
             <Smartphone /> Apps
           </div>
-        </Link>
-        <Link href="/blog">
+        </a>
+        <a href="/blogs">
           <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#FACB15] to-[#FEF08A] flex flex-col items-center justify-center gap-1 font-medium">
             <FileText /> Blog
           </div>
-        </Link>
-        <Link href="/faq">
+        </a>
+        <a href="/faq">
           <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#36D26F] to-[#36D26F] flex flex-col items-center justify-center gap-1 font-medium">
             <HelpCircle /> FAQ
           </div>
-        </Link>
+        </a>
         <div className="h-30 w-30 rounded-lg bg-gradient-to-t from-[#F97316] to-[#FBCC15] flex flex-col items-center justify-center gap-1 font-medium">
           <Sun /> Mode
         </div>
