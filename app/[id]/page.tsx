@@ -155,7 +155,14 @@ function ModInfoSection({ modInfo }: { modInfo: string }) {
       </button>
       {isExpanded && (
         <div className="mt-2 bg-gray-800/50 border border-gray-700/50 rounded-xl p-4">
-          <p className="text-gray-300 text-sm leading-relaxed">{modInfo}</p>
+          <ul className="space-y-1">
+  {modInfo.split(",").map((item, index) => (
+    <li key={index} className="flex items-center gap-2 text-gray-400 text-sm font-bold">
+      <span className="text-cyan-400 text-2xl font-bold">•</span>
+      {item.trim()}
+    </li>
+  ))}
+</ul>
         </div>
       )}
     </div>
