@@ -10,7 +10,7 @@ export async function GET() {
       .limit(6)
       .sort({ createdAt: -1 })
       .select(
-        "-imagePublicId -packageName -publisher -category -platform -price -downloadUrl -requirements -modInfo -tags -screenshots -screenshotsPublicIds -createdAt -updatedAt",
+        "-imagePublicId -packageName -publisher -platform -price -downloadUrl -requirements -modInfo -tags -screenshots -screenshotsPublicIds -createdAt -updatedAt",
       );
 
     return NextResponse.json(

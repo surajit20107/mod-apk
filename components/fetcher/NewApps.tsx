@@ -39,7 +39,7 @@ export default function NewApps() {
       {isLoading && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {[...Array(4)].map((_, i) => (
-            <AppCardSkeleton key={i} variant="featured" />
+            <AppCardSkeleton key={i} variant="compact" />
           ))}
         </div>
       )}
@@ -47,7 +47,7 @@ export default function NewApps() {
       {!isLoading && !error && apps.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {apps.slice(0, 4).map((app: any) => (
-            <AppCard key={app._id} app={app} variant="featured" />
+            <AppCard key={app._id} app={app} variant="compact" />
           ))}
         </div>
       )}

@@ -50,7 +50,7 @@ export default function AppCard({ app, variant = "featured" }: AppCardProps) {
                 )}
               </div>
               <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
-                <span>{app.category}</span>
+                <span>{app.category.split(",")[0]}</span>
                 <span>•</span>
                 <span className="flex items-center gap-1">
                   <HardDrive className="w-3 h-3" />

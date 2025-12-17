@@ -294,18 +294,12 @@ export default function AppPage() {
               <Home className="w-4 h-4" />
             </Link>
             <ChevronRight className="w-4 h-4 text-gray-500" />
-            {/* <Link
-              href="/"
-              className="text-pink-400 hover:text-pink-300 transition-colors"
-            >
-              Apps
-            </Link>
-            <ChevronRight className="w-4 h-4 text-gray-500" /> */}
+            
             <Link
-              href={`/category/${app.category}`}
+              href={`/category/${app.category.split(",")[0].toLowerCase()}`}
               className="text-pink-400 hover:text-pink-300 transition-colors"
             >
-              {app.category.charAt(0).toUpperCase() + app.category.slice(1)}
+              {app.category.charAt(0).toUpperCase() + app.category.slice(1).split(",")[0]}
             </Link>
             <ChevronRight className="w-4 h-4 text-gray-500" />
             <span className="text-gray-400 truncate max-w-[150px]">
@@ -439,40 +433,6 @@ export default function AppPage() {
         <ScreenshotGallery screenshots={app.screenshots} />
 
         <ModInfoSection modInfo={app.modInfo} />
-
-        {/* {app.tags && app.tags.length > 0 && (
-          <div className="mb-8">
-            <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
-              <span className="w-1 h-6 bg-pink-500 rounded-full"></span>
-              Tags
-            </h2>
-            <div className="flex flex-wrap gap-2">
-              {app.tags.map((tag, index) => (
-                <span
-                  key={index}
-                  className="bg-gray-800/50 border border-gray-700/50 text-gray-300 text-sm px-4 py-2 rounded-lg hover:border-pink-500/50 transition-colors"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-          </div>
-        )} */}
-
-        {/* <div className="mb-8">
-          <a
-            href={app.downloadUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="block w-full bg-gradient-to-r from-pink-500 to-pink-600 hover:from-pink-600 hover:to-pink-700 text-white font-bold py-4 rounded-xl text-center transition-all duration-200 hover:shadow-lg hover:shadow-pink-500/30"
-          >
-            <div className="flex items-center justify-center gap-3">
-              <Download className="w-6 h-6" />
-              <span className="text-lg">Download {app.name}</span>
-              <ExternalLink className="w-5 h-5" />
-            </div>
-          </a>
-        </div> */}
 
         <RelatedApps currentAppId={app._id} />
       </div>
