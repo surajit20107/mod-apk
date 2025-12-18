@@ -22,7 +22,7 @@ export const appSchema = z.object({
   description: z.string().trim().min(3),
   downloadUrl: z.string().trim().min(5).max(100),
   requirements: z.string().trim().min(5).max(100),
-  modInfo: z.string().trim().min(10).max(255),
+  modInfo: z.string().trim().min(10),
   screenshots: z.array(z.string()),
   tags: z.array(z.string()),
 })
