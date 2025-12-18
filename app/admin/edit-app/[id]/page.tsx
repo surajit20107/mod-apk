@@ -38,7 +38,11 @@ interface FormData {
   tags: string[];
 }
 
-export default function EditApp({ params }: { params: Promise<{ id: string }> }) {
+export default function EditApp({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
   const { id } = use(params);
   const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
@@ -154,7 +158,9 @@ export default function EditApp({ params }: { params: Promise<{ id: string }> })
     setFormData((prev) => ({
       ...prev,
       screenshots: prev.screenshots.filter((_, i) => i !== index),
-      screenshotsPublicIds: prev.screenshotsPublicIds.filter((_, i) => i !== index),
+      screenshotsPublicIds: prev.screenshotsPublicIds.filter(
+        (_, i) => i !== index,
+      ),
     }));
   };
 
@@ -240,7 +246,7 @@ export default function EditApp({ params }: { params: Promise<{ id: string }> })
                   name="packageName"
                   placeholder="com.example.app"
                   className={inputClasses}
-                  value={formData.packageName}
+                  value={formData.packageName.toLowerCase()}
                   onChange={(e) =>
                     setFormData({ ...formData, packageName: e.target.value })
                   }
@@ -258,7 +264,7 @@ export default function EditApp({ params }: { params: Promise<{ id: string }> })
                   name="publisher"
                   placeholder="https://publisher.com"
                   className={inputClasses}
-                  value={formData.publisher}
+                  value={formData.publisher.toLowerCase()}
                   onChange={(e) =>
                     setFormData({ ...formData, publisher: e.target.value })
                   }
@@ -432,7 +438,7 @@ export default function EditApp({ params }: { params: Promise<{ id: string }> })
                     name="downloadUrl"
                     placeholder="https://download.link/app.apk"
                     className={inputClasses}
-                    value={formData.downloadUrl}
+                    value={formData.downloadUrl.toLowerCase()}
                     onChange={(e) =>
                       setFormData({ ...formData, downloadUrl: e.target.value })
                     }
@@ -461,18 +467,17 @@ export default function EditApp({ params }: { params: Promise<{ id: string }> })
                   <label htmlFor="modinfo" className={labelClasses}>
                     Mod Info
                   </label>
-                  <input
+                  <textarea
                     required
                     id="modinfo"
-                    type="text"
                     name="modInfo"
                     placeholder="Premium Unlocked, No Ads"
-                    className={inputClasses}
+                    className={`${inputClasses} resize-none`}
                     value={formData.modInfo}
                     onChange={(e) =>
                       setFormData({ ...formData, modInfo: e.target.value })
                     }
-                  />
+                  ></textarea>
                 </div>
 
                 <div>
@@ -484,9 +489,9 @@ export default function EditApp({ params }: { params: Promise<{ id: string }> })
                     id="tags"
                     type="text"
                     name="tags"
-                    placeholder="mod, premium, unlocked"
+                    placeholder="featured, new-apps, apps"
                     className={inputClasses}
-                    value={formData.tags.join(",")}
+                    value={formData.tags.join(",").toLowerCase()}
                     onChange={(e) =>
                       setFormData({
                         ...formData,

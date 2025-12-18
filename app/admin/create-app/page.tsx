@@ -175,7 +175,7 @@ export default function CreateApp() {
                   name="packageName"
                   placeholder="com.example.app"
                   className={inputClasses}
-                  value={formData.packageName}
+                  value={formData.packageName.toLowerCase()}
                   onChange={(e) =>
                     setFormData({ ...formData, packageName: e.target.value })
                   }
@@ -193,7 +193,7 @@ export default function CreateApp() {
                   name="publisher"
                   placeholder="https://publisher.com"
                   className={inputClasses}
-                  value={formData.publisher}
+                  value={formData.publisher.toLowerCase()}
                   onChange={(e) =>
                     setFormData({ ...formData, publisher: e.target.value })
                   }
@@ -405,7 +405,8 @@ export default function CreateApp() {
                     value={formData.modInfo}
                     onChange={(e) =>
                       setFormData({ ...formData, modInfo: e.target.value })
-                    }></textarea>
+                    }
+                  ></textarea>
                 </div>
 
                 <div>
@@ -417,9 +418,9 @@ export default function CreateApp() {
                     id="tags"
                     type="text"
                     name="tags"
-                    placeholder="mod, premium, unlocked"
+                    placeholder="featured, new-apps, apps"
                     className={inputClasses}
-                    value={formData.tags.join(",")}
+                    value={formData.tags.join(",").toLowerCase()}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
