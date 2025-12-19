@@ -162,8 +162,8 @@ export async function DELETE(
           existingApp.screenshotsPublicIds.map((publicId: string) =>
             cloudinary.uploader.destroy(publicId).catch((err) => {
               console.warn(`Failed to delete screenshot ${publicId}:`, err);
-            })
-          )
+            }),
+          ),
         );
       }
     } catch (cloudinaryError) {
