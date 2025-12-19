@@ -37,7 +37,7 @@ export default function AdminDashboard() {
   const [apps, setApps] = useState<App[]>([]);
   const [pagination, setPagination] = useState<Pagination>({
     page: 1,
-    limit: 20,
+    limit: 10,
     total: 0,
     totalPages: 0,
   });
@@ -54,7 +54,7 @@ export default function AdminDashboard() {
     try {
       const params = new URLSearchParams({
         page: page.toString(),
-        limit: "20",
+        limit: "10",
         ...(searchTerm && { search: searchTerm }),
       });
 

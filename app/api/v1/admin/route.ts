@@ -7,7 +7,7 @@ import Apk from "@/models/apk";
 export async function GET(req: NextRequest) {
   try {
     const authResult = await verifyAdminAuth();
-    
+
     if (!authResult.authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
@@ -16,7 +16,7 @@ export async function GET(req: NextRequest) {
 
     const { searchParams } = new URL(req.url);
     const page = parseInt(searchParams.get("page") || "1");
-    const limit = parseInt(searchParams.get("limit") || "20");
+    const limit = parseInt(searchParams.get("limit") || "10");
     const search = searchParams.get("search") || "";
 
     const skip = (page - 1) * limit;
@@ -58,7 +58,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
   try {
     const authResult = await verifyAdminAuth();
-    
+
     if (!authResult.authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
