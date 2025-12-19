@@ -3,20 +3,28 @@ import { connectToDatabase } from "@/lib/db";
 import { appSchema } from "@/lib/validation";
 import { verifyAdminAuth } from "@/lib/auth";
 import Apk from "@/models/apk";
+import { v2 as cloudinary } from "cloudinary";
+
+// Configure Cloudinary with credentials
+cloudinary.config({
+  cloud_name: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const authResult = await verifyAdminAuth();
-    
+
     if (!authResult.authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     await connectToDatabase();
-    
+
     const { id } = await params;
     const app = await Apk.findById(id);
 
@@ -36,17 +44,17 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const authResult = await verifyAdminAuth();
-    
+
     if (!authResult.authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     await connectToDatabase();
-    
+
     const { id } = await params;
     const existingApp = await Apk.findById(id);
 
@@ -104,7 +112,7 @@ export async function PUT(
         screenshots: updateData.screenshots,
         screenshotsPublicIds: updateData.screenshotsPublicIds,
       },
-      { new: true }
+      { new: true },
     );
 
     return NextResponse.json(
@@ -122,17 +130,17 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const authResult = await verifyAdminAuth();
-    
+
     if (!authResult.authorized) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     await connectToDatabase();
-    
+
     const { id } = await params;
     const existingApp = await Apk.findById(id);
 
@@ -140,6 +148,30 @@ export async function DELETE(
       return NextResponse.json({ message: "App not found" }, { status: 404 });
     }
 
+    // delete images from cloudinary
+    try {
+      if (existingApp.imagePublicId) {
+        await cloudinary.uploader.destroy(existingApp.imagePublicId);
+      }
+
+      if (
+        existingApp.screenshotsPublicIds &&
+        existingApp.screenshotsPublicIds.length > 0
+      ) {
+        await Promise.all(
+          existingApp.screenshotsPublicIds.map((publicId: string) =>
+            cloudinary.uploader.destroy(publicId).catch((err) => {
+              console.warn(`Failed to delete screenshot ${publicId}:`, err);
+            })
+          )
+        );
+      }
+    } catch (cloudinaryError) {
+      console.error("Error deleting images from Cloudinary:", cloudinaryError);
+      // Continue with database deletion even if Cloudinary delete fails
+    }
+
+    // delete app from database
     await Apk.findByIdAndDelete(id);
 
     return NextResponse.json(
