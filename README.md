@@ -113,7 +113,7 @@ Built with **Next.js**, **TypeScript**, **MongoDB**, and an intuitive UI, it let
 
 ## 📝 License
 
-MIT.  
+[MIT](/LICENSE).  
 Feel free to fork, improve, and use for your APK store admin needs.
 
 ---
