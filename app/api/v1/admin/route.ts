@@ -107,6 +107,11 @@ export async function POST(req: NextRequest) {
       screenshotsPublicIds,
     });
 
+    if (!publisher) {
+      const publisherUrl = `https://play.google.com/store/apps/details?id=${packageName}`;
+      newApk.publisher = publisherUrl;
+    }
+
     const validation = appSchema.safeParse(newApk);
 
     if (!validation.success) {

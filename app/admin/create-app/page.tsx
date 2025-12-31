@@ -187,7 +187,6 @@ export default function CreateApp() {
                   Publisher URL
                 </label>
                 <input
-                  required
                   id="publisher"
                   type="text"
                   name="publisher"
