@@ -156,13 +156,16 @@ function ModInfoSection({ modInfo }: { modInfo: string }) {
       {isExpanded && (
         <div className="mt-2 bg-gray-800/50 border border-gray-700/50 rounded-xl p-4">
           <ul className="space-y-1">
-  {modInfo.split(",").map((item, index) => (
-    <li key={index} className="flex items-center gap-2 text-gray-400 text-sm font-bold">
-      <span className="text-cyan-400 text-2xl font-bold">•</span>
-      {item.trim()}
-    </li>
-  ))}
-</ul>
+            {modInfo.split(",").map((item, index) => (
+              <li
+                key={index}
+                className="flex items-center gap-2 text-gray-400 text-sm font-bold"
+              >
+                <span className="text-cyan-400 text-2xl font-bold">•</span>
+                {item.trim()}
+              </li>
+            ))}
+          </ul>
         </div>
       )}
     </div>
@@ -208,7 +211,14 @@ function RelatedApps({ currentAppId }: { currentAppId: string }) {
                     {app.name}
                   </h3>
                   <div className="flex items-center gap-2 mt-1 text-xs text-gray-400">
-                    <span>{app.category}</span>
+                    <span>
+                      {app.category
+                        .split(" ")
+                        .map(
+                          (word) =>
+                            word.charAt(0).toUpperCase() + word.slice(1))
+                      .join(" ")}
+                    </span>
                     <span>•</span>
                     <span>{app.size}</span>
                   </div>
@@ -294,12 +304,13 @@ export default function AppPage() {
               <Home className="w-4 h-4" />
             </Link>
             <ChevronRight className="w-4 h-4 text-gray-500" />
-            
+
             <Link
               href={`/category/${app.category.split(",")[0].toLowerCase()}`}
               className="text-pink-400 hover:text-pink-300 transition-colors"
             >
-              {app.category.charAt(0).toUpperCase() + app.category.slice(1).split(",")[0]}
+              {app.category.charAt(0).toUpperCase() +
+                app.category.slice(1).split(",")[0]}
             </Link>
             <ChevronRight className="w-4 h-4 text-gray-500" />
             <span className="text-gray-400 truncate max-w-[150px]">
