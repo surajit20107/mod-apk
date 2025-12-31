@@ -216,8 +216,9 @@ function RelatedApps({ currentAppId }: { currentAppId: string }) {
                         .split(" ")
                         .map(
                           (word) =>
-                            word.charAt(0).toUpperCase() + word.slice(1))
-                      .join(" ")}
+                            word.charAt(0).toUpperCase() + word.slice(1),
+                        )
+                        .join(" ")}
                     </span>
                     <span>•</span>
                     <span>{app.size}</span>
@@ -417,7 +418,10 @@ export default function AppPage() {
           <InfoCard
             icon={Tag}
             label="Category"
-            value={app.category}
+            value={app.category
+              .split(" ")
+              .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+              .join(" ")}
             valueColor="text-pink-400"
           />
           <InfoCard icon={HardDrive} label="Size" value={app.size} />
