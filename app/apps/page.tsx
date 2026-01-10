@@ -1,36 +1,39 @@
 "use client";
 import { useState } from "react";
 import useSWR from "swr";
-import { AppWindow } from "lucide-react";
+import { AppWindow, ChevronLeft, ChevronRight } from "lucide-react";
 import AppCard from "@/components/ui/AppCard";
 import AppCardSkeleton from "@/components/ui/AppCardSkeleton";
 import SectionHeader from "@/components/ui/SectionHeader";
 
-const fetcher = (url: string) => fetch(url).then(r => r.json())
+interface App {
+  _id: string;
+  name: string;
+  image: string;
+  packageName: string;
+  category: string;
+  version: string;
+  rating: number;
+  createdAt: string;
+}
+
+const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function AppsCategory() {
   const [page, setPage] = useState(1);
   const category = ["apps", "new-apps"];
   const url = `/api/v1/apk/category?category=${category}&page=${page}`;
 
-  const {
-    data,
-    error,
-    isLoading
-  } = useSWR(url, fetcher, {
+  const { data, error, isLoading } = useSWR(url, fetcher, {
     revalidateOnFocus: false,
-    dedupingInterval: 60 * 60 * 1000
+    dedupingInterval: 60 * 60 * 1000,
   });
 
-  const apps = data?.apps || [];
-  
+  const apps:App[] = data?.apps || [];
+
   return (
-    <section className="mb-8 sm:mb-12">
-      <SectionHeader 
-        title="Apps" 
-        icon={AppWindow} 
-        iconColor="text-blue-400"
-      />
+    <div className="mb-8 sm:mb-12">
+      <SectionHeader title="Apps" icon={AppWindow} iconColor="text-blue-400" />
 
       {error && (
         <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-center">
@@ -55,10 +58,22 @@ export default function AppsCategory() {
       )}
 
       {!isLoading && !error && apps.length === 0 && (
-        <div className="text-center text-gray-400 py-8">
-          No apps available
-        </div>
+        <div className="text-center text-gray-400 py-8">No apps available</div>
       )}
-    </section>
-  )
+      
+      {/* pagination */}
+      <div>
+        <div className="flex items-center justify-center gap-2 mt-6">
+          <button>
+            <ChevronLeft className="w-5 h-5" />
+          </button>
+          <span className="text-gray-400">{page}</span>
+          <button>
+            <ChevronRight className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+      
+    </div>
+  );
 }
