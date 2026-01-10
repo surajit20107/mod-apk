@@ -20,7 +20,8 @@ interface App {
 const fetcher = (url: string) => fetch(url).then((r) => r.json());
 
 export default function AppsCategory() {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<Number>(1);
+
   const category = ["apps", "new-apps"];
   const url = `/api/v1/apk/category?category=${category}&page=${page}`;
 
@@ -29,11 +30,17 @@ export default function AppsCategory() {
     dedupingInterval: 60 * 60 * 1000,
   });
 
-  const apps:App[] = data?.apps || [];
+  const apps: App[] = data?.apps || [];
 
   return (
-    <div className="mb-8 sm:mb-12">
-      <SectionHeader title="Apps" icon={AppWindow} iconColor="text-blue-400" />
+    <div className="mb-4 sm:mb-10">
+      <div className="px-4 my-4 md:my-8 md:px-8">
+        <SectionHeader
+          title="Apps"
+          icon={AppWindow}
+          iconColor="text-blue-400"
+        />
+      </div>
 
       {error && (
         <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-4 text-red-400 text-center">
@@ -60,20 +67,27 @@ export default function AppsCategory() {
       {!isLoading && !error && apps.length === 0 && (
         <div className="text-center text-gray-400 py-8">No apps available</div>
       )}
-      
+
       {/* pagination */}
       <div>
-        <div className="flex items-center justify-center gap-2 mt-6">
-          <button>
-            <ChevronLeft className="w-5 h-5" />
+        <div className="flex justify-center items-center gap-4 mt-6 font-bold md:mt-10">
+          <button
+            onClick={() => setPage(Number(page) - 1)}
+            disabled={page === 1}
+            className="disable:cursor-not-allowed"
+          >
+            <ChevronLeft />
           </button>
-          <span className="text-gray-400">{page}</span>
-          <button>
-            <ChevronRight className="w-5 h-5" />
+          <span>{Number(page)}</span>
+          <button
+            onClick={() => setPage(Number(page) + 1)}
+            disabled={!data?.pagination?.hasMore}
+            className="disable:cursor-not-allowed"
+          >
+            <ChevronRight />
           </button>
         </div>
       </div>
-      
     </div>
   );
 }

@@ -23,8 +23,16 @@ export async function GET(req: Request) {
       );
 
     return NextResponse.json(
-      { apps },
-      { status: 200 }
+      {
+        apps,
+        pagination: {
+          page,
+          limit,
+          total: apps.length,
+          hasMore: apps.length === limit,
+        },
+      },
+      { status: 200 },
     );
   } catch (error) {
     console.log(error);
