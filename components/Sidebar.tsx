@@ -38,7 +38,7 @@ export default function Sidebar({isOpen, onClose}: SidebarProps) {
       </div>
 
       {/* Category */}
-      <div className="category mt-6 grid grid-cols-2 sm:grid-cols-3 gap-10 mx-auto w-fit">
+      <div className="category mt-12 grid grid-cols-2 gap-10 mx-auto w-fit">
         <a href="/">
           <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#3B82F6] to-[#93C5FD] flex flex-col items-center justify-center gap-1 font-medium">
             <Home /> Home
@@ -54,19 +54,19 @@ export default function Sidebar({isOpen, onClose}: SidebarProps) {
             <Smartphone /> Apps
           </div>
         </a>
-        <a href="/blogs">
+        {/* <a href="/blogs">
           <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#FACB15] to-[#FEF08A] flex flex-col items-center justify-center gap-1 font-medium">
             <FileText /> Blog
           </div>
-        </a>
+        </a> */}
         <a href="/faq">
           <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#36D26F] to-[#36D26F] flex flex-col items-center justify-center gap-1 font-medium">
             <HelpCircle /> FAQ
           </div>
         </a>
-        <div className="h-30 w-30 rounded-lg bg-gradient-to-t from-[#F97316] to-[#FBCC15] flex flex-col items-center justify-center gap-1 font-medium">
+        {/* <div className="h-30 w-30 rounded-lg bg-gradient-to-t from-[#F97316] to-[#FBCC15] flex flex-col items-center justify-center gap-1 font-medium">
           <Sun /> Mode
-        </div>
+        </div> */}
       </div>
     </div>
   )
