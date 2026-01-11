@@ -12,6 +12,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>("");
 
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      if (!keyword.trim) return;
+    } else {
+      window.location.href = `/search/${keyword}`
+    }
+  });
+
   return (
     <nav className="h-16 w-full flex p-4 items-center bg-zinc-600">
       <Menu onClick={onMenuClick} />

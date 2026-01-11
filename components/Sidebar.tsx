@@ -20,7 +20,7 @@ interface SidebarProps {
 export default function Sidebar({ isOpen, onClose }: SidebarProps) {
   if (!isOpen) return;
   const pathName = window.location.hostname;
-  const [keyword, setKeyword] = useState<String>("");
+  const [keyword, setKeyword] = useState<string>("");
 
   const handleSearch = () => {
     if (keyword) {
