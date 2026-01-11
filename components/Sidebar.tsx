@@ -1,17 +1,42 @@
-import { X, Search, Home, Gamepad2, Smartphone, FileText, HelpCircle, Sun } from "lucide-react";
+"use client";
+import {
+  X,
+  Search,
+  Home,
+  Gamepad2,
+  Smartphone,
+  FileText,
+  HelpCircle,
+  Sun,
+} from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function Sidebar({isOpen, onClose}: SidebarProps) {
-  if (!isOpen) return
+export default function Sidebar({ isOpen, onClose }: SidebarProps) {
+  if (!isOpen) return;
   const pathName = window.location.hostname;
+  const [keyword, setKeyword] = useState<String>("");
+
+  const handleSearch = () => {
+    if (keyword) {
+      window.location.href = `/search/${keyword}`;
+    }
+    if (!keyword) return;
+  };
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
+    }
+  });
+
   return (
     <div className="fixed top-0 left-0 h-full w-full bg-[#111827]">
-
       {/* Header */}
       <div className="flex items-center justify-between p-4">
         <div>
@@ -21,7 +46,7 @@ export default function Sidebar({isOpen, onClose}: SidebarProps) {
             height={40}
             width={40}
             className="object-contain"
-            />
+          />
         </div>
         <div>
           <h1 className="font-bild text-xl">{pathName.split(".")[0]}</h1>
@@ -33,8 +58,18 @@ export default function Sidebar({isOpen, onClose}: SidebarProps) {
 
       {/* Search bar */}
       <div className="searchBar px-4 my-3 relative sm:px-28">
-        <input type="text" placeholder="Search for apps, games, blogs..." className="w-full bg-[#1F2937] text-white rounded-xl px-4 py-3 pr-12 outline-none" />
-        <Search className="absolute right-8 top-1/2 transform -translate-y-1/2 text-blue-500 sm:right-36" />
+        <input
+          type="text"
+          placeholder="Search by app names..."
+          className="w-full bg-[#1F2937] text-white rounded-xl px-4 py-3 pr-12 outline-none"
+          value={keyword.toString()}
+          onChange={(e) => setKeyword(e.target.value.toString())}
+        />
+
+        <Search
+          className="absolute right-8 top-1/2 transform -translate-y-1/2 text-blue-500 sm:right-36"
+          onClick={handleSearch}
+        />
       </div>
 
       {/* Category */}
@@ -69,5 +104,5 @@ export default function Sidebar({isOpen, onClose}: SidebarProps) {
         </div> */}
       </div>
     </div>
-  )
+  );
 }
