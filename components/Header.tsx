@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Menu, Search, Github, X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,13 +12,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [keyword, setKeyword] = useState<string>("");
 
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") {
-      if (!keyword.trim) return;
-    } else {
-      window.location.href = `/search/${keyword}`
-    }
-  });
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && keyword.trim()) {
+        window.location.href = `/search/${keyword}`;
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+  }, [keyword]);
 
   return (
     <nav className="h-16 w-full flex p-4 items-center bg-zinc-600">
