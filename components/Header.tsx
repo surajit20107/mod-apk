@@ -18,7 +18,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter" && keyword.trim()) {
-        router.push(`/search/${keyword}`);
+        router.push(`/search/${keyword.toLowerCase().replace(/\s+/g, "")}`);
         setKeyword("");
         setIsSearchOpen(false);
       }

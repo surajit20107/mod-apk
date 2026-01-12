@@ -24,7 +24,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
   const handleSearch = () => {
     if (keyword) {
-      window.location.href = `/search/${keyword}`;
+      window.location.href = `/search/${keyword.toLowerCase().replace(/\s+/g, "")}`;
     }
     if (!keyword) return;
   };
