@@ -27,7 +27,7 @@ export default function NewGames() {
         title="New Games" 
         icon={Flame} 
         iconColor="text-orange-400"
-        viewAllHref="/games/new"
+        viewAllHref="/games"
       />
 
       {error && (

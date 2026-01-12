@@ -27,7 +27,7 @@ export default function NewApps() {
         title="New Apps" 
         icon={Zap} 
         iconColor="text-green-400"
-        viewAllHref="/apps/new"
+        viewAllHref="/apps"
       />
 
       {error && (
