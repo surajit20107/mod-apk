@@ -19,6 +19,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Enter" && keyword.trim()) {
         router.push(`/search/${keyword}`);
+        setKeyword("");
+        setIsSearchOpen(false);
       }
     };
 
