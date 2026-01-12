@@ -108,6 +108,7 @@ export async function PUT(
         downloadUrl: updateData.downloadUrl,
         requirements: updateData.requirements,
         modInfo: updateData.modInfo,
+        normalizedName: updateData.name.toLowerCase().replace(/\s+/g, ""),
         tags: updateData.tags,
         screenshots: updateData.screenshots,
         screenshotsPublicIds: updateData.screenshotsPublicIds,

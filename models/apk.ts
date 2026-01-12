@@ -16,6 +16,7 @@ const apkSchema = new Schema({
   downloadUrl: String,
   requirements: String,
   modInfo: String,
+  normalizedName: String,
   tags: [String],
   screenshots: [String],
   screenshotsPublicIds: [String],

@@ -86,6 +86,8 @@ export async function POST(req: NextRequest) {
       tags,
     } = await req.json();
 
+    const normalizedName = name.toLowerCase().replace(/\s+/g, "");
+
     const newApk = new Apk({
       name,
       image,
@@ -102,6 +104,7 @@ export async function POST(req: NextRequest) {
       downloadUrl,
       requirements,
       modInfo,
+      normalizedName,
       tags,
       screenshots,
       screenshotsPublicIds,
