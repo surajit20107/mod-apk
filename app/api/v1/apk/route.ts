@@ -8,7 +8,9 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const search = searchParams.get("search");
 
-    if (!search) {
+    const normalizedSearch = search?.toLowerCase().replace(/\s+/g, "");
+
+    if (!search && !normalizedSearch) {
       return NextResponse.json({
         message: "Search query is required",
       }, { status: 400 });
@@ -16,7 +18,7 @@ export async function GET(req: Request) {
     
     await connectToDatabase();
     
-    const apks = await Apk.find({ name: { $regex: search, $options: "i" }})
+    const apks = await Apk.find({ normalizedName: { $regex: normalizedSearch, $options: "i" }})
 
     return NextResponse.json(
       { apks },
