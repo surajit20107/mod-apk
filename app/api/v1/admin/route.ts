@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
-import { appSchema } from "@/lib/validation";
 import { verifyAdminAuth } from "@/lib/auth";
 import Apk from "@/models/apk";
 
@@ -47,7 +46,6 @@ export async function GET(req: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Error fetching apps:", error);
     return NextResponse.json(
       { message: "Error fetching apps" },
       { status: 500 },
@@ -115,15 +113,6 @@ export async function POST(req: NextRequest) {
       newApk.publisher = publisherUrl;
     }
 
-    const validation = appSchema.safeParse(newApk);
-
-    if (!validation.success) {
-      return NextResponse.json(
-        { message: validation.error.issues[0].message || "Invalid data" },
-        { status: 400 },
-      );
-    }
-
     await newApk.save();
 
     return NextResponse.json(
@@ -131,7 +120,6 @@ export async function POST(req: NextRequest) {
       { status: 201 },
     );
   } catch (error) {
-    console.error("Error creating app:", error);
     return NextResponse.json(
       { message: "Error uploading app" },
       { status: 500 },

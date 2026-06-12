@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
-import { appSchema } from "@/lib/validation";
 import { verifyAdminAuth } from "@/lib/auth";
 import Apk from "@/models/apk";
 import { v2 as cloudinary } from "cloudinary";
@@ -34,7 +33,6 @@ export async function GET(
 
     return NextResponse.json({ app });
   } catch (error) {
-    console.error("Error fetching app:", error);
     return NextResponse.json(
       { message: "Error fetching app" },
       { status: 500 },
@@ -63,32 +61,6 @@ export async function PUT(
     }
 
     const updateData = await req.json();
-
-    const validation = appSchema.safeParse({
-      name: updateData.name,
-      image: updateData.image,
-      packageName: updateData.packageName,
-      publisher: updateData.publisher,
-      category: updateData.category,
-      size: updateData.size,
-      rating: updateData.rating,
-      version: updateData.version,
-      platform: updateData.platform,
-      price: updateData.price,
-      description: updateData.description,
-      downloadUrl: updateData.downloadUrl,
-      requirements: updateData.requirements,
-      modInfo: updateData.modInfo,
-      screenshots: updateData.screenshots,
-      tags: updateData.tags,
-    });
-
-    if (!validation.success) {
-      return NextResponse.json(
-        { message: validation.error.issues[0].message || "Invalid data" },
-        { status: 400 },
-      );
-    }
 
     const updatedApp = await Apk.findByIdAndUpdate(
       id,
@@ -121,7 +93,6 @@ export async function PUT(
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error updating app:", error);
     return NextResponse.json(
       { message: "Error updating app" },
       { status: 500 },
@@ -148,7 +119,7 @@ export async function DELETE(
     if (!existingApp) {
       return NextResponse.json({ message: "App not found" }, { status: 404 });
     }
-
+    let response; // in case of cloudinary delete error, we will use this to send a response to the client
     // delete images from cloudinary
     try {
       if (existingApp.imagePublicId) {
@@ -162,27 +133,42 @@ export async function DELETE(
         await Promise.all(
           existingApp.screenshotsPublicIds.map((publicId: string) =>
             cloudinary.uploader.destroy(publicId).catch((err) => {
-              console.warn(`Failed to delete screenshot ${publicId}:`, err);
+              // send the error to the client
+              response = NextResponse.json(
+                { error: `Error deleting image from Cloudinary: ${err}` },
+                { status: 500 },
+              )
             }),
           ),
         );
       }
     } catch (cloudinaryError) {
-      console.error("Error deleting images from Cloudinary:", cloudinaryError);
+      // create a NextResponse and and attached it with the success message after app deleted from db to let user know image delete failed
+      response = NextResponse.json(
+        {
+          message:
+            "App deleted successfully but failed to delete images from Cloudinary",
+        },
+        { status: 200 },
+      );
+
       // Continue with database deletion even if Cloudinary delete fails
     }
 
     // delete app from database
     await Apk.findByIdAndDelete(id);
 
+    // if cloudinary delete failed, return the response with the message
+    if (response) return response;
+
+    // if cloudinary delete success, return the response with the success message
     return NextResponse.json(
       { message: "App deleted successfully" },
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error deleting app:", error);
     return NextResponse.json(
-      { message: "Error deleting app" },
+      { message: `Error deleting app: ${error}` },
       { status: 500 },
     );
   }
