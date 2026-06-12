@@ -65,7 +65,6 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("Admin signin error:", error);
     return NextResponse.json(
       { message: "An error occurred while signing in" },
       { status: 500 },

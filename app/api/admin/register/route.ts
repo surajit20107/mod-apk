@@ -55,7 +55,6 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("Admin register error:", error);
     return NextResponse.json(
       { message: "An error occurred while creating the account" },
       { status: 500 },

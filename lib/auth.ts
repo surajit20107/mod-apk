@@ -37,7 +37,6 @@ export async function verifyAdminAuth() {
 
     return { authorized: true, user };
   } catch (error) {
-    console.error("Auth verification error:", error);
     return { authorized: false, error: "Authentication failed" };
   }
 }

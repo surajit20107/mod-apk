@@ -34,7 +34,6 @@ export async function GET(req: Request) {
       { status: 200 },
     );
   } catch (error) {
-    console.log(error);
     return NextResponse.json(
       {
         message: "Internal server error, try again later",

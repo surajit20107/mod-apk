@@ -127,7 +127,7 @@ export default function AdminDashboard() {
       });
       router.push("/admin/signin");
     } catch (err) {
-      console.error("Logout error:", err);
+      setError("Failed to logout")
     }
   };
 
