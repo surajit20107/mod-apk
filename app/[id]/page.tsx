@@ -373,7 +373,7 @@ export default function AppPage() {
       <div className="container mx-auto px-4 py-6 md:py-8">
         {app.description && (
           <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 mb-8">
-            <p className="text-gray-300 text-sm leading-relaxed">
+            <p className="text-gray-300 text-sm leading-relaxed text-wrap overflow-x-scroll scrollbar-hide">
               {app.description}
             </p>
           </div>
