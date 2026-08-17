@@ -1,9 +1,24 @@
 import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
 import Apk from "@/models/apk";
+import redis from "@/lib/redis";
+
+const cachedKey = "featuredApps";
 
 export async function GET() {
   try {
+    const cachedData = await redis.get(cachedKey);
+
+    if (cachedData) {
+      console.log("Redis Featured Apps cache HIT");
+      return NextResponse.json(
+        {
+          featuredApps: cachedData,
+        },
+        { status: 200 },
+      );
+    }
+    console.log("Redis Featured Apps cache MISS");
     await connectToDatabase();
 
     const featuredApps = await Apk.find({ tags: { $in: ["featured"] } })
@@ -12,6 +27,10 @@ export async function GET() {
       .select(
         "-imagePublicId -packageName -publisher -platform -price -downloadUrl -requirements -modInfo -tags -screenshots -screenshotsPublicIds -createdAt -updatedAt",
       );
+
+    await redis.set(cachedKey, featuredApps, {
+      ex: 60 * 60 * 24, // Cache for 24 hours
+    });
 
     return NextResponse.json(
       {
