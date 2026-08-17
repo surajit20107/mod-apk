@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
 import User from "@/models/user";
+import redis from "@/lib/redis";
 
 export async function POST(req: NextRequest) {
   try {
@@ -19,17 +20,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    await connectToDatabase();
+    // const identifier = emailAndUsername.trim().toLowerCase();
+    const cachedKey = `admin:user:${emailAndUsername}`;
+    const cachedUser = await redis.get(cachedKey);
+    let user;
 
-    const user = await User.findOne({
-      $or: [{ email: emailAndUsername }, { username: emailAndUsername }],
-    }).select("+password");
+    if (cachedUser) {
+      console.log("Redis cache HIT");
+      user = new User(cachedUser);
+    } else {
+      console.log("Redis cache MISS");
 
-    if (!user) {
-      return NextResponse.json(
-        { message: "Invalid credentials" },
-        { status: 401 },
-      );
+      await connectToDatabase();
+
+      user = await User.findOne({
+        $or: [{ email: emailAndUsername }, { username: emailAndUsername }],
+      }).select("+password");
+
+      if (!user) {
+        return NextResponse.json(
+          { message: "Invalid credentials" },
+          { status: 401 },
+        );
+      }
+
+      await redis.set(cachedKey,  user.toObject(user), {
+        ex: 60 * 60 * 24, // Cache for 1 day
+      });
     }
 
     if (user.role !== "admin") {

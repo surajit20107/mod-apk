@@ -20,6 +20,7 @@ export async function GET() {
       { status: 200 },
     );
   } catch (error) {
+    console.error("Error fetching featured apps:", error);
     return NextResponse.json(
       { message: "Error fetching apps" },
       { status: 500 },
