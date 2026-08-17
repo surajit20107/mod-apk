@@ -7,7 +7,8 @@ export async function GET(req: Request) {
   try {
     const url = new URL(req.url);
     const id = url.pathname.split("/").pop();
-    const cachedData = await redis.get(String(id));
+    const cacheKey = `apk:${id}`;
+    const cachedData = await redis.get(cacheKey);
     
     if (cachedData) {
       return NextResponse.json(cachedData);
@@ -15,13 +16,13 @@ export async function GET(req: Request) {
 
     await connectToDatabase();
 
-    const apk = await Apk.findById(id);
+    const apk = await Apk.findById(id).lean();
 
     if (!apk) {
       return NextResponse.json({ error: "APK not found " }, { status: 404 });
     }
 
-    await redis.set(String(id), apk, {
+    await redis.set(cacheKey, apk, {
       ex: 60 * 60 * 24, // Cache for 24 hours
     });
 

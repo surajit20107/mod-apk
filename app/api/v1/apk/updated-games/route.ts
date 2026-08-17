@@ -26,7 +26,7 @@ export async function GET() {
       .sort({ createdAt: -1 })
       .select(
         "-imagePublicId -packageName -publisher -platform -price -downloadUrl -requirements -modInfo -tags -screenshots -screenshotsPublicIds -createdAt -updatedAt",
-      );
+      ).lean();
 
     await redis.set(CACHE_KEY, updatedGames, {
       ex: CACHE_TTL,
