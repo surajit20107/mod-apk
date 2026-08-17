@@ -26,11 +26,8 @@ export async function POST(req: NextRequest) {
     let user;
 
     if (cachedUser) {
-      console.log("Redis cache HIT");
       user = new User(cachedUser);
     } else {
-      console.log("Redis cache MISS");
-
       await connectToDatabase();
 
       user = await User.findOne({

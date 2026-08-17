@@ -10,7 +10,6 @@ export async function GET() {
     const cachedData = await redis.get(cachedKey);
 
     if (cachedData) {
-      console.log("Redis Featured Apps cache HIT");
       return NextResponse.json(
         {
           featuredApps: cachedData,
@@ -18,7 +17,7 @@ export async function GET() {
         { status: 200 },
       );
     }
-    console.log("Redis Featured Apps cache MISS");
+
     await connectToDatabase();
 
     const featuredApps = await Apk.find({ tags: { $in: ["featured"] } })
