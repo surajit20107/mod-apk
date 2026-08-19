@@ -28,7 +28,7 @@ export async function GET() {
       ).lean();
 
     await redis.set(cachedKey, featuredApps, {
-      ex: 60 * 60 * 24, // Cache for 24 hours
+      ex: 60 * 60 * 5, // Cache for 5 hours
     });
 
     return NextResponse.json(
