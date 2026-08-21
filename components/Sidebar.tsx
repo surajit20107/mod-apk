@@ -5,9 +5,7 @@ import {
   Home,
   Gamepad2,
   Smartphone,
-  FileText,
   HelpCircle,
-  Sun,
 } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
@@ -52,7 +50,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           <h1 className="font-bild text-xl">{pathName.split(".")[0]}</h1>
         </div>
         <div>
-          <X onClick={onClose} />
+          <X className="cursor-pointer" onClick={onClose} />
         </div>
       </div>
 
@@ -67,7 +65,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
         />
 
         <Search
-          className="absolute right-8 top-1/2 transform -translate-y-1/2 text-blue-500 sm:right-36"
+          className="absolute right-8 top-1/2 transform -translate-y-1/2 text-blue-500 sm:right-36 cursor-pointer"
           onClick={handleSearch}
         />
       </div>

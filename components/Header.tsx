@@ -33,7 +33,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   return (
     <nav className="h-16 w-full flex p-4 items-center bg-zinc-600">
-      <Menu onClick={onMenuClick} />
+      <Menu className="cursor-pointer" onClick={onMenuClick} />
       <div className="flex flex-1 items-center justify-center px-4">
         {!isSearchOpen && (
           <div className="relative h-8 w-36">
@@ -62,9 +62,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
       <div className="flex items-center justify-center h-full w-auto gap-4">
         {isSearchOpen ? (
-          <X onClick={() => setIsSearchOpen(false)} />
+          <X className="cursor-pointer" onClick={() => setIsSearchOpen(false)} />
         ) : (
-          <Search onClick={() => setIsSearchOpen(true)} />
+          <Search className="cursor-pointer" onClick={() => setIsSearchOpen(true)} />
         )}
 
         <a href="https://github.com/surajit20107" target="_blank">
