@@ -3,6 +3,9 @@ import { ReactNode } from "react";
 import { useParams } from "next/navigation";
 import useSWR from "swr";
 import Link from "next/link";
+import Markdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import remarkBreaks from "remark-breaks";
 import {
   Home,
   ChevronRight,
@@ -374,7 +377,9 @@ export default function AppPage() {
         {app.description && (
           <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 mb-8">
             <p className="text-gray-300 text-sm leading-relaxed text-wrap overflow-x-scroll scrollbar-hide">
-              {app.description}
+              <Markdown remarkPlugins={[remarkGfm, remarkBreaks]}>
+                {app.description}
+              </Markdown>
             </p>
           </div>
         )}
