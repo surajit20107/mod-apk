@@ -361,8 +361,8 @@ export default function AppPage() {
 
               <a
                 href={app.downloadUrl}
-                target="_blank"
-                rel="noopener noreferrer"
+                // target="_blank"
+                // rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 bg-pink-500 hover:bg-pink-600 text-white font-bold px-8 py-3 rounded-xl transition-all duration-200 hover:scale-105 hover:shadow-lg hover:shadow-pink-500/30"
               >
                 <Download className="w-5 h-5" />
@@ -376,11 +376,11 @@ export default function AppPage() {
       <div className="container mx-auto px-4 py-6 md:py-8">
         {app.description && (
           <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 mb-8">
-            <p className="text-gray-300 text-sm leading-relaxed text-wrap overflow-x-scroll scrollbar-hide">
+            <div className="text-gray-300 text-sm leading-relaxed text-wrap overflow-x-scroll scrollbar-hide">
               <Markdown remarkPlugins={[remarkGfm, remarkBreaks]}>
                 {app.description}
               </Markdown>
-            </p>
+            </div>
           </div>
         )}
 
