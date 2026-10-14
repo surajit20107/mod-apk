@@ -3,6 +3,7 @@ import { connectToDatabase } from "@/lib/db";
 import { verifyAdminAuth } from "@/lib/auth";
 import Apk from "@/models/apk";
 import { v2 as cloudinary } from "cloudinary";
+import redis from "@/lib/redis";
 
 // Configure Cloudinary with credentials
 cloudinary.config({
@@ -88,6 +89,9 @@ export async function PUT(
       { new: true },
     );
 
+    // Invalidate Redis cache for this app
+    await redis.del(`apk:${id}`);
+
     return NextResponse.json(
       { message: "App updated successfully", app: updatedApp },
       { status: 200 },
@@ -157,6 +161,9 @@ export async function DELETE(
 
     // delete app from database
     await Apk.findByIdAndDelete(id);
+
+    // Invalidate Redis cache for this app
+    await redis.del(`apk:${id}`);
 
     // if cloudinary delete failed, return the response with the message
     if (response) return response;
