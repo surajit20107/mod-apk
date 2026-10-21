@@ -1,4 +1,11 @@
 import mongoose from "mongoose";
+import dns from "dns";
+
+
+if (process.env.NODE_ENV !== "production") {
+  dns.setServers(["1.1.1.1", "8.8.8.8"]); // resolve mongodb connection refuse error
+  mongoose.set("debug", true);
+}
 
 const connectionString = process.env.MONGODB_URI;
 

@@ -14,6 +14,7 @@ import {
   Send,
   ArrowLeft,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface FormData {
   name: string;
@@ -87,7 +88,7 @@ export default function CreateApp() {
         throw new Error(data.message || "Failed to create app");
       }
       const data = await res.json();
-      alert(data.message);
+      toast.success(data.message || "App created successfully!");
       router.push("/admin/dashboard");
     } catch (error) {
       setError(

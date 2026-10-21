@@ -16,6 +16,7 @@ import {
   Loader2,
   X,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface FormData {
   name: string;
@@ -145,7 +146,7 @@ export default function EditApp({
       }
 
       const data = await res.json();
-      alert(data.message);
+      toast.success(data.message || "App updated successfully!");
       router.push("/admin/dashboard");
     } catch (err) {
       setError((err as Error).message);

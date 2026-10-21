@@ -20,6 +20,7 @@
     "next-cloudinary": "^6.17.5",
     "react": "19.2.0",
     "react-dom": "19.2.0",
+    "react-hot-toast": "^2.6.1",
     "react-markdown": "^10.1.0",
     "remark-breaks": "^4.0.0",
     "remark-gfm": "^4.0.1",
