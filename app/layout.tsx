@@ -1,6 +1,5 @@
 "use client";
 import { Geist, Geist_Mono } from "next/font/google";
-// @ts-expect-error TypeScript may not have declarations for CSS side-effect imports.
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
