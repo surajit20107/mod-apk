@@ -4,6 +4,7 @@ import { verifyAdminAuth, verifySuperAdminAuth } from "@/lib/auth";
 import Apk from "@/models/apk";
 import { v2 as cloudinary } from "cloudinary";
 import redis from "@/lib/redis";
+import { diffApp, recordAppAudit } from "@/lib/audit";
 
 // Configure Cloudinary with credentials
 cloudinary.config({
@@ -93,6 +94,15 @@ export async function PUT(
     // Invalidate Redis cache for this app
     await redis.del(`apk:${id}`);
 
+    if (updatedApp) {
+      await recordAppAudit({
+        action: "update",
+        app: updatedApp.toObject(),
+        actor: authResult.user,
+        changes: diffApp(existingApp.toObject(), updatedApp.toObject()),
+      });
+    }
+
     return NextResponse.json(
       { message: "App updated successfully", app: updatedApp },
       { status: 200 },
@@ -159,6 +169,12 @@ export async function DELETE(
 
       // Continue with database deletion even if Cloudinary delete fails
     }
+
+    await recordAppAudit({
+      action: "delete",
+      app: existingApp.toObject(),
+      actor: authResult.user,
+    });
 
     // delete app from database
     await Apk.findByIdAndDelete(id);

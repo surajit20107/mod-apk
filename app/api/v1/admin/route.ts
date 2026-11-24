@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
 import { verifyAdminAuth } from "@/lib/auth";
 import Apk from "@/models/apk";
+import { recordAppAudit } from "@/lib/audit";
 
 export async function GET(req: NextRequest) {
   try {
@@ -115,6 +116,12 @@ export async function POST(req: NextRequest) {
     }
 
     await newApk.save();
+
+    await recordAppAudit({
+      action: "create",
+      app: newApk.toObject(),
+      actor: authResult.user,
+    });
 
     return NextResponse.json(
       { message: "App uploaded successfully" },

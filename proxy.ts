@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
   
-  const protectedAdminRoutes = ["/admin/create-app", "/admin/dashboard", "/admin/edit-app", "/admin/manage-users"];
+  const protectedAdminRoutes = ["/admin/create-app", "/admin/dashboard", "/admin/edit-app", "/admin/manage-users", "/admin/app-details"];
   const isProtectedRoute = protectedAdminRoutes.some(route => pathname.startsWith(route));
   
   if (isProtectedRoute) {

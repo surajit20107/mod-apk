@@ -10,13 +10,17 @@ import {
   LogOut,
   ExternalLink,
   Loader2,
+  History,
 } from "lucide-react";
 
 const links = [
   { href: "/admin/dashboard", label: "Apps", icon: LayoutDashboard },
   { href: "/admin/create-app", label: "Create App", icon: PlusSquare },
+  { href: "/admin/app-details", label: "App Details", icon: History },
   { href: "/admin/manage-users", label: "Users", icon: Users },
 ];
+
+const superAdminOnlyLinks = ["/admin/app-details", "/admin/manage-users"];
 
 export default function AdminHeader() {
   const pathname = usePathname();
@@ -40,7 +44,8 @@ export default function AdminHeader() {
   }, [pathname]);
 
   const visibleLinks = links.filter(
-    (link) => link.href !== "/admin/manage-users" || role === "superadmin",
+    (link) =>
+      !superAdminOnlyLinks.includes(link.href) || role === "superadmin",
   );
 
   const isAuthPage =
