@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
-import { verifyAdminAuth } from "@/lib/auth";
+import { verifySuperAdminAuth } from "@/lib/auth";
 import User from "@/models/user";
 import redis from "@/lib/redis";
 
@@ -23,10 +23,13 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const authResult = await verifyAdminAuth();
+    const authResult = await verifySuperAdminAuth();
 
     if (!authResult.authorized) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { message: authResult.error },
+        { status: authResult.forbidden ? 403 : 401 },
+      );
     }
 
     await connectToDatabase();
@@ -47,8 +50,7 @@ export async function PATCH(
 
     const body = await req.json();
     const updates: Record<string, unknown> = {};
-    const currentUserId =
-      "user" in authResult ? authResult.user._id.toString() : "";
+    const currentUserId = authResult.user._id.toString();
 
     if (body.role !== undefined) {
       if (!["user", "admin"].includes(body.role)) {
@@ -132,10 +134,13 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const authResult = await verifyAdminAuth();
+    const authResult = await verifySuperAdminAuth();
 
     if (!authResult.authorized) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { message: authResult.error },
+        { status: authResult.forbidden ? 403 : 401 },
+      );
     }
 
     await connectToDatabase();
@@ -154,8 +159,7 @@ export async function DELETE(
       );
     }
 
-    const currentUserId =
-      "user" in authResult ? authResult.user._id.toString() : "";
+    const currentUserId = authResult.user._id.toString();
 
     if (user._id.toString() === currentUserId) {
       return NextResponse.json(

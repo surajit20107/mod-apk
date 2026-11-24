@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
-import { verifyAdminAuth } from "@/lib/auth";
+import { verifySuperAdminAuth } from "@/lib/auth";
 import User from "@/models/user";
 
 export async function GET(req: NextRequest) {
   try {
-    const authResult = await verifyAdminAuth();
+    const authResult = await verifySuperAdminAuth();
 
     if (!authResult.authorized) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      return NextResponse.json(
+        { message: authResult.error },
+        { status: authResult.forbidden ? 403 : 401 },
+      );
     }
 
     await connectToDatabase();

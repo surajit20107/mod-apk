@@ -48,3 +48,29 @@ export async function verifyAdminAuth() {
     return { authorized: false, error: "Authentication failed" };
   }
 }
+
+/**
+ * Stricter variant of verifyAdminAuth: only accounts with the "superadmin"
+ * role may pass. Used for user management, which regular admins must not see.
+ */
+export async function verifySuperAdminAuth() {
+  const authResult = await verifyAdminAuth();
+
+  if (!authResult.authorized || !("user" in authResult)) {
+    return {
+      authorized: false as const,
+      forbidden: false,
+      error: authResult.error,
+    };
+  }
+
+  if (authResult.user.role !== "superadmin") {
+    return {
+      authorized: false as const,
+      forbidden: true,
+      error: "Superadmin access required",
+    };
+  }
+
+  return { authorized: true as const, user: authResult.user };
+}

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   ShieldCheck,
   LayoutDashboard,
@@ -22,6 +22,26 @@ export default function AdminHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    let active = true;
+
+    fetch("/api/admin/session", { credentials: "include" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (active) setRole(data?.role ?? null);
+      })
+      .catch(() => {});
+
+    return () => {
+      active = false;
+    };
+  }, [pathname]);
+
+  const visibleLinks = links.filter(
+    (link) => link.href !== "/admin/manage-users" || role === "superadmin",
+  );
 
   const isAuthPage =
     pathname === "/admin/signin" || pathname === "/admin/signup";
@@ -57,7 +77,7 @@ export default function AdminHeader() {
 
         {!isAuthPage && (
           <nav className="flex items-center gap-1 overflow-x-auto">
-            {links.map((link) => {
+            {visibleLinks.map((link) => {
               const active = pathname.startsWith(link.href);
 
               return (
