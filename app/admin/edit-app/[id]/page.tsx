@@ -1,4 +1,4 @@
-const newLocal = "use client";
+"use client";
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { CldUploadButton } from "next-cloudinary";
