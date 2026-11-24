@@ -20,10 +20,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // const identifier = emailAndUsername.trim().toLowerCase();
-    const cachedKey = `admin:user:${emailAndUsername}`;
-    const cachedUser = await redis.get(cachedKey);
+    if (!process.env.JWT_SECRET) {
+      console.error("Admin signin failed: JWT_SECRET is not set");
+      return NextResponse.json(
+        {
+          message:
+            "Server is misconfigured: JWT_SECRET is missing, so a session cannot be created.",
+        },
+        { status: 500 },
+      );
+    }
+
+    const identifier = emailAndUsername.trim();
+    const cachedKey = `admin:user:${identifier}`;
     let user;
+
+    // The cache is only an optimisation: if Redis is unreachable we must still
+    // be able to fall back to the database instead of failing the whole login.
+    let cachedUser = null;
+    try {
+      cachedUser = await redis.get(cachedKey);
+    } catch (cacheError) {
+      console.error("Admin signin: failed to read Redis cache", cacheError);
+    }
 
     if (cachedUser) {
       user = new User(cachedUser);
@@ -31,26 +50,32 @@ export async function POST(req: NextRequest) {
       await connectToDatabase();
 
       user = await User.findOne({
-        $or: [{ email: emailAndUsername }, { username: emailAndUsername }],
+        $or: [{ email: identifier }, { username: identifier }],
       }).select("+password");
 
       if (!user) {
         return NextResponse.json(
-          { message: "Invalid credentials" },
+          {
+            message: `No account found for "${identifier}". Check the email or username.`,
+          },
           { status: 401 },
         );
       }
 
-      if (user.role !== "admin") {
+      if (user.role !== "admin" && user.role !== "superadmin") {
         return NextResponse.json(
           { message: "Access denied. Admin privileges required." },
           { status: 403 },
         );
       }
 
-      await redis.set(cachedKey,  user.toObject(user), {
-        ex: 60 * 60 * 24, // Cache for 1 day
-      });
+      try {
+        await redis.set(cachedKey, user.toObject(), {
+          ex: 60 * 60 * 24, // Cache for 1 day
+        });
+      } catch (cacheError) {
+        console.error("Admin signin: failed to write Redis cache", cacheError);
+      }
     }
 
     if (user.isBanned) {
@@ -71,10 +96,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    if (user.role !== "admin") {
+    if (user.role !== "admin" && user.role !== "superadmin") {
       return NextResponse.json(
         { message: "Access denied. Admin privileges required." },
         { status: 403 },
+      );
+    }
+
+    if (!user.password) {
+      return NextResponse.json(
+        {
+          message:
+            "This account has no password set. Reset the password or recreate the account.",
+        },
+        { status: 401 },
       );
     }
 
@@ -82,7 +117,7 @@ export async function POST(req: NextRequest) {
 
     if (!isCorrectPassword) {
       return NextResponse.json(
-        { message: "Invalid credentials" },
+        { message: "Incorrect password. Please try again." },
         { status: 401 },
       );
     }
@@ -104,8 +139,15 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error) {
+    console.error("Admin signin error:", error);
+
+    const detail =
+      error instanceof Error && error.message
+        ? error.message
+        : "Unknown server error";
+
     return NextResponse.json(
-      { message: "An error occurred while signing in" },
+      { message: `Sign in failed: ${detail}` },
       { status: 500 },
     );
   }

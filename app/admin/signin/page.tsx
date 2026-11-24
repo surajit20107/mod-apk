@@ -27,15 +27,23 @@ export default function AdminLogin() {
         },
         body: JSON.stringify(formData),
       });
+      const data = await res.json().catch(() => ({}));
+
       if (!res.ok) {
-        setError("Failed to signin, please try again later.");
+        setError(
+          data?.message ||
+            `Failed to sign in (HTTP ${res.status}). Please try again later.`,
+        );
+        return;
       }
-      const data = await res.json();
+
       localStorage.setItem("userId", data.userId);
       router.push("/admin/dashboard");
     } catch (error) {
-      throw new Error(
-        (error as Error).message || "Failed to signin, please try again later.",
+      setError(
+        error instanceof Error && error.message
+          ? `Could not reach the server: ${error.message}`
+          : "Failed to sign in, please try again later.",
       );
     } finally {
       setIsSubmitting(false);
