@@ -258,7 +258,7 @@ function DetailRow({ label, value }: { label: string; value?: string }) {
       <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
         {label}
       </p>
-      <p className="text-gray-200 text-sm break-words">{value || "—"}</p>
+      <p className="text-gray-200 text-sm wrap-break-word">{value || "—"}</p>
     </div>
   );
 }
@@ -390,7 +390,7 @@ function AppDetailModal({
                 <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
                   Description
                 </p>
-                <p className="text-gray-200 text-sm whitespace-pre-wrap break-words">
+                <p className="text-gray-200 text-sm whitespace-pre-wrap wrap-break-word">
                   {app.description || "—"}
                 </p>
               </div>
@@ -398,7 +398,7 @@ function AppDetailModal({
                 <p className="text-xs uppercase tracking-wide text-gray-500 mb-1">
                   Mod info
                 </p>
-                <p className="text-gray-200 text-sm whitespace-pre-wrap break-words">
+                <p className="text-gray-200 text-sm whitespace-pre-wrap wrap-break-word">
                   {app.modInfo || "—"}
                 </p>
               </div>

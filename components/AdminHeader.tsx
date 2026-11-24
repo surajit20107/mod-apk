@@ -16,7 +16,7 @@ import {
 const links = [
   { href: "/admin/dashboard", label: "Apps", icon: LayoutDashboard },
   { href: "/admin/create-app", label: "Create App", icon: PlusSquare },
-  { href: "/admin/app-details", label: "App Details", icon: History },
+  { href: "/admin/app-details", label: "Activity", icon: History },
   { href: "/admin/manage-users", label: "Users", icon: Users },
 ];
 
