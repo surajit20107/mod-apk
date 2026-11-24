@@ -31,7 +31,7 @@ export async function verifyAdminAuth() {
       return { authorized: false, error: "User not found" };
     }
 
-    if (user.role !== "admin") {
+    if (user.role !== "admin" && user.role !== "superadmin") {
       return { authorized: false, error: "Admin access required" };
     }
 
