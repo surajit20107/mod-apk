@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
   try {
     const authResult = await verifyAdminAuth();
 
-    if (!authResult.authorized) {
+    if (!authResult.authorized || !("user" in authResult)) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
@@ -106,6 +106,7 @@ export async function POST(req: NextRequest) {
       tags,
       screenshots,
       screenshotsPublicIds,
+      createdby: authResult.user.username,
     });
 
     if (!publisher) {

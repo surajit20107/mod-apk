@@ -7,7 +7,6 @@ import {
   Edit,
   Trash2,
   Plus,
-  LogOut,
   ChevronLeft,
   ChevronRight,
   AlertCircle,
@@ -102,6 +101,10 @@ export default function AdminDashboard() {
         credentials: "include",
       });
 
+      const data = await res.json();
+      setError(data.message);
+      setDeleteConfirm(null)
+
       if (!res.ok) {
         if (res.status === 401) {
           router.push("/admin/signin");
@@ -116,18 +119,6 @@ export default function AdminDashboard() {
       setError((err as Error).message);
     } finally {
       setDeleting(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await fetch("/api/admin/logout", { 
-        method: "POST",
-        credentials: "include",
-      });
-      router.push("/admin/signin");
-    } catch (err) {
-      setError("Failed to logout")
     }
   };
 

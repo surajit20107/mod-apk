@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/db";
-import { verifyAdminAuth } from "@/lib/auth";
+import { verifyAdminAuth, verifySuperAdminAuth } from "@/lib/auth";
 import Apk from "@/models/apk";
 import { v2 as cloudinary } from "cloudinary";
 import redis from "@/lib/redis";
@@ -48,7 +48,7 @@ export async function PUT(
   try {
     const authResult = await verifyAdminAuth();
 
-    if (!authResult.authorized) {
+    if (!authResult.authorized || !("user" in authResult)) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
@@ -85,6 +85,7 @@ export async function PUT(
         tags: updateData.tags,
         screenshots: updateData.screenshots,
         screenshotsPublicIds: updateData.screenshotsPublicIds,
+        updatedby: authResult.user.username,
       },
       { new: true },
     );
@@ -109,10 +110,10 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const authResult = await verifyAdminAuth();
+    const authResult = await verifySuperAdminAuth();
 
-    if (!authResult.authorized) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (!authResult.authorized || authResult.error) {
+      return NextResponse.json({ message: authResult.error }, { status: 401 });
     }
 
     await connectToDatabase();
