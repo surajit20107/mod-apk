@@ -41,9 +41,34 @@ export async function POST(req: NextRequest) {
         );
       }
 
+      if (user.role !== "admin") {
+        return NextResponse.json(
+          { message: "Access denied. Admin privileges required." },
+          { status: 403 },
+        );
+      }
+
       await redis.set(cachedKey,  user.toObject(user), {
         ex: 60 * 60 * 24, // Cache for 1 day
       });
+    }
+
+    if (user.isBanned) {
+      return NextResponse.json(
+        {
+          message: user.banReason
+            ? `Your account has been banned: ${user.banReason}`
+            : "Your account has been banned.",
+        },
+        { status: 403 },
+      );
+    }
+
+    if (user.loginDisabled) {
+      return NextResponse.json(
+        { message: "Your login access has been disabled by an administrator." },
+        { status: 403 },
+      );
     }
 
     if (user.role !== "admin") {

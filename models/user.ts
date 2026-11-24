@@ -9,7 +9,20 @@ const userSchema = new Schema({
   image: String,
   role: {
     type: String,
+    enum: ["user", "admin"],
     default: "user",
+  },
+  isBanned: {
+    type: Boolean,
+    default: false,
+  },
+  banReason: {
+    type: String,
+    default: "",
+  },
+  loginDisabled: {
+    type: Boolean,
+    default: false,
   },
 }, { timestamps: true })
 

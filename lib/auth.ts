@@ -35,6 +35,14 @@ export async function verifyAdminAuth() {
       return { authorized: false, error: "Admin access required" };
     }
 
+    if (user.isBanned) {
+      return { authorized: false, error: "Account banned" };
+    }
+
+    if (user.loginDisabled) {
+      return { authorized: false, error: "Login access disabled" };
+    }
+
     return { authorized: true, user };
   } catch (error) {
     return { authorized: false, error: "Authentication failed" };
