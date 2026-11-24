@@ -154,13 +154,6 @@ export default function AdminDashboard() {
               <Plus className="w-5 h-5" />
               Add App
             </button>
-            <button
-              onClick={handleLogout}
-              className="flex items-center gap-2 bg-gray-700 text-white px-4 py-2.5 rounded-xl hover:bg-gray-600 transition-all duration-200 font-medium"
-            >
-              <LogOut className="w-5 h-5" />
-              Logout
-            </button>
           </div>
         </div>
 
