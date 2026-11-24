@@ -25,7 +25,8 @@ export async function GET(req: NextRequest) {
 
     const skip = (page - 1) * limit;
 
-    const query: Record<string, unknown> = {};
+    // Superadmin accounts are never exposed or manageable here
+    const query: Record<string, unknown> = { role: { $ne: "superadmin" } };
 
     if (search) {
       query.$or = [
@@ -47,6 +48,8 @@ export async function GET(req: NextRequest) {
       query.loginDisabled = { $ne: true };
     }
 
+    const notSuperadmin = { role: { $ne: "superadmin" } };
+
     const [users, total, totalUsers, admins, banned, blocked] =
       await Promise.all([
         User.find(query)
@@ -56,10 +59,10 @@ export async function GET(req: NextRequest) {
           .limit(limit)
           .lean(),
         User.countDocuments(query),
-        User.countDocuments(),
+        User.countDocuments(notSuperadmin),
         User.countDocuments({ role: "admin" }),
-        User.countDocuments({ isBanned: true }),
-        User.countDocuments({ loginDisabled: true }),
+        User.countDocuments({ ...notSuperadmin, isBanned: true }),
+        User.countDocuments({ ...notSuperadmin, loginDisabled: true }),
       ]);
 
     return NextResponse.json({

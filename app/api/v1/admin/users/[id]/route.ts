@@ -38,6 +38,13 @@ export async function PATCH(
       return NextResponse.json({ message: "User not found" }, { status: 404 });
     }
 
+    if (user.role === "superadmin") {
+      return NextResponse.json(
+        { message: "Superadmin accounts cannot be modified" },
+        { status: 403 },
+      );
+    }
+
     const body = await req.json();
     const updates: Record<string, unknown> = {};
     const currentUserId =
@@ -138,6 +145,13 @@ export async function DELETE(
 
     if (!user) {
       return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
+    if (user.role === "superadmin") {
+      return NextResponse.json(
+        { message: "Superadmin accounts cannot be deleted" },
+        { status: 403 },
+      );
     }
 
     const currentUserId =
