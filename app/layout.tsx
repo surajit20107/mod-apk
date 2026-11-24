@@ -31,7 +31,7 @@ export default function RootLayout({
       >
         <Toaster position="top-center" reverseOrder={false} />
         <Header onMenuClick={() => setIsSidebarOpen(true)} />
-        <main className="flex-grow bg-[#1F2937]">{children}</main>
+        <main className="grow bg-[#1F2937]">{children}</main>
         <Footer />
         <Sidebar
           isOpen={isSidebarOpen}

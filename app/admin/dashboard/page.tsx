@@ -132,11 +132,11 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600">
+            <div className="p-3 rounded-2xl bg-linear-to-br from-blue-500 to-purple-600">
               <Package className="w-8 h-8 text-white" />
             </div>
             <div>
@@ -149,7 +149,7 @@ export default function AdminDashboard() {
           <div className="flex gap-3">
             <button
               onClick={() => router.push("/admin/create-app")}
-              className="flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2.5 rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all duration-200 font-medium"
+              className="flex items-center gap-2 bg-linear-to-r from-green-500 to-emerald-600 text-white px-4 py-2.5 rounded-xl hover:from-green-600 hover:to-emerald-700 transition-all duration-200 font-medium"
             >
               <Plus className="w-5 h-5" />
               Add App

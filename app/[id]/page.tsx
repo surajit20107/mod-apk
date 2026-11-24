@@ -53,7 +53,7 @@ interface App {
 function AppDetailSkeleton() {
   return (
     <div className="animate-pulse">
-      <div className="bg-gradient-to-b from-gray-800/80 to-transparent py-8">
+      <div className="bg-linear-to-b from-gray-800/80 to-transparent py-8">
         <div className="container mx-auto px-4">
           <div className="h-4 w-48 bg-gray-700 rounded mb-6"></div>
           <div className="flex flex-col md:flex-row items-center md:items-start gap-6">
@@ -117,7 +117,7 @@ function ScreenshotGallery({ screenshots }: { screenshots: string[] }) {
           <button
             key={index}
             onClick={() => setSelectedIndex(index)}
-            className={`flex-shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
+            className={`shrink-0 rounded-xl overflow-hidden border-2 transition-all duration-200 ${
               selectedIndex === index
                 ? "border-pink-500 scale-105"
                 : "border-transparent hover:border-gray-600"
@@ -197,7 +197,7 @@ function RelatedApps({ currentAppId }: { currentAppId: string }) {
           <Link key={app._id} href={`/${app._id}`}>
             <div className="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 p-3 hover:border-gray-600 transition-all duration-200 group">
               <div className="flex gap-3">
-                <div className="relative flex-shrink-0">
+                <div className="relative shrink-0">
                   <img
                     src={app.image || "/placeholder-app.png"}
                     alt={app.name}
@@ -298,7 +298,7 @@ export default function AppPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="bg-gradient-to-b from-gray-800/80 to-transparent py-6 md:py-8">
+      <div className="bg-linear-to-b from-gray-800/80 to-transparent py-6 md:py-8">
         <div className="container mx-auto px-4">
           <nav className="flex items-center gap-2 text-sm mb-6 flex-wrap">
             <Link
@@ -317,7 +317,7 @@ export default function AppPage() {
                 app.category.slice(1).split(",")[0]}
             </Link>
             <ChevronRight className="w-4 h-4 text-gray-500" />
-            <span className="text-gray-400 truncate max-w-[150px]">
+            <span className="text-gray-400 truncate max-w-37.5">
               {app.name}
             </span>
           </nav>

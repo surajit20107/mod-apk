@@ -11,7 +11,7 @@ export default function Hero({ questionCount, categoryCount }: HeroProps) {
       <div className="mx-auto max-w-4xl text-center">
         <h1 className="mt-6 text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
           Frequently Asked{" "}
-          <span className="bg-gradient-to-r from-indigo-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-indigo-600 via-violet-600 to-fuchsia-600 bg-clip-text text-transparent">
             Questions
           </span>
         </h1>

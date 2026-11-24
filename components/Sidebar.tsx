@@ -73,17 +73,17 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
       {/* Category */}
       <div className="category mt-12 grid grid-cols-2 gap-10 mx-auto w-fit">
         <a href="/">
-          <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#3B82F6] to-[#93C5FD] flex flex-col items-center justify-center gap-1 font-medium">
+          <div className="h-30 w-30 rounded-lg bg-linear-to-l from-[#3B82F6] to-[#93C5FD] flex flex-col items-center justify-center gap-1 font-medium">
             <Home /> Home
           </div>
         </a>
         <a href="/games">
-          <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#EF4444] to-[#FCA5A5] flex flex-col items-center justify-center gap-1 font-medium">
+          <div className="h-30 w-30 rounded-lg bg-linear-to-l from-[#EF4444] to-[#FCA5A5] flex flex-col items-center justify-center gap-1 font-medium">
             <Gamepad2 /> Games
           </div>
         </a>
         <a href="/apps">
-          <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#9333EA] to-[#C084FC] flex flex-col items-center justify-center gap-1 font-medium">
+          <div className="h-30 w-30 rounded-lg bg-linear-to-l from-[#9333EA] to-[#C084FC] flex flex-col items-center justify-center gap-1 font-medium">
             <Smartphone /> Apps
           </div>
         </a>
@@ -93,7 +93,7 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
           </div>
         </a> */}
         <a href="/faq">
-          <div className="h-30 w-30 rounded-lg bg-gradient-to-l from-[#36D26F] to-[#36D26F] flex flex-col items-center justify-center gap-1 font-medium">
+          <div className="h-30 w-30 rounded-lg bg-linear-to-l from-[#36D26F] to-[#36D26F] flex flex-col items-center justify-center gap-1 font-medium">
             <HelpCircle /> FAQ
           </div>
         </a>

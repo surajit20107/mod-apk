@@ -105,7 +105,7 @@ export default function CreateApp() {
   const labelClasses = "block text-sm font-medium text-gray-300 mb-2";
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-linear-to-br from-gray-900 via-gray-800 to-gray-900 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="flex items-center gap-4 mb-8">
           <button
@@ -115,7 +115,7 @@ export default function CreateApp() {
             <ArrowLeft className="w-6 h-6" />
           </button>
           <div className="flex items-center gap-4">
-            <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500 to-purple-600">
+            <div className="p-3 rounded-2xl bg-linear-to-br from-blue-500 to-purple-600">
               <Package className="w-8 h-8 text-white" />
             </div>
             <div>
@@ -466,7 +466,7 @@ export default function CreateApp() {
                   )}
                   <CldUploadButton
                     uploadPreset="ml_default"
-                    className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-5 py-2.5 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all duration-200 font-medium text-sm"
+                    className="mt-4 inline-flex items-center gap-2 bg-linear-to-r from-pink-500 to-rose-500 text-white px-5 py-2.5 rounded-xl hover:from-pink-600 hover:to-rose-600 transition-all duration-200 font-medium text-sm"
                     onSuccess={(result: any) => {
                       const imageUrl = result.info.secure_url;
                       const imagePublicId = result.info.public_id;
@@ -514,7 +514,7 @@ export default function CreateApp() {
                   )}
                   <CldUploadButton
                     uploadPreset="ml_default"
-                    className="mt-4 inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-indigo-500 text-white px-5 py-2.5 rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 font-medium text-sm"
+                    className="mt-4 inline-flex items-center gap-2 bg-linear-to-r from-blue-500 to-indigo-500 text-white px-5 py-2.5 rounded-xl hover:from-blue-600 hover:to-indigo-600 transition-all duration-200 font-medium text-sm"
                     onSuccess={(result: any) => {
                       const screenshotsUrl = result.info.secure_url;
                       const ScreenshotsPublicIds = result.info.public_id;
@@ -548,7 +548,7 @@ export default function CreateApp() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white px-8 py-4 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-200 font-semibold text-lg shadow-lg shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="inline-flex items-center gap-3 bg-linear-to-r from-green-500 to-emerald-500 text-white px-8 py-4 rounded-xl hover:from-green-600 hover:to-emerald-600 transition-all duration-200 font-semibold text-lg shadow-lg shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? (
                 <>
