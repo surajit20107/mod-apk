@@ -3,6 +3,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { LogIn, User, Lock, ArrowRight } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Eye, EyeClosed } from "lucide-react";
 
 export default function AdminLogin() {
   const router = useRouter();
@@ -10,6 +11,7 @@ export default function AdminLogin() {
     emailAndUsername: "",
     password: "",
   });
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
@@ -107,7 +109,7 @@ export default function AdminLogin() {
                 <input
                   required
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   name="password"
                   placeholder="Enter your password"
                   className={inputClasses}
@@ -116,6 +118,17 @@ export default function AdminLogin() {
                     setFormData({ ...formData, password: e.target.value })
                   }
                 />
+                {showPassword ? (
+                  <Eye
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+                    onClick={() => setShowPassword(false)}
+                  />
+                ) : (
+                  <EyeClosed
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 cursor-pointer"
+                    onClick={() => setShowPassword(true)}
+                  />
+                )}
               </div>
             </div>
 
