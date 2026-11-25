@@ -41,7 +41,7 @@ export async function POST(req: NextRequest) {
     const token = await newUser.generateToken();
 
     const response = NextResponse.json(
-      { message: "Admin account created successfully", userId: newUser._id },
+      { message: "Account created successfully", userId: newUser._id },
       { status: 201 },
     );
 
